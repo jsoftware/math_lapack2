@@ -1,0 +1,9 @@
+NB. project: math/lapack2
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+lib.ijs
+api.ijs
+util.ijs
