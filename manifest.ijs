@@ -18,7 +18,7 @@ Both Windows and Android binary provided here use reference BLAS.
 Reference BLAS implementation may be orders of magnitude slower than optimized implementations. Build your own optimized BLAS if speed performance is critical.
 )
 
-VERSION=: '1.0.00'
+VERSION=: '1.0.01'
 
 RELEASE=: ''
 
