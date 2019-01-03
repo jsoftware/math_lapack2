@@ -77,13 +77,12 @@ nrhs=. {:@$mvb
 assert. 0= _1{::cdrc=. dgesv`zgesv`sgesv`cgesv@.x (,n);(,nrhs);(|:ma);(,1>.m);(ipv=. n$2-2);(|:ldb{.mvb);(,ldb=. 1>.n);,_1
 R=. n{. |: 6{::cdrc
 echo R
-echo r=. mvb match`matchf@.(x>1) clean ma mp R
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
 0{::r
 )
 
 NB. =========================================================
 testdgesv=: 3 : 0
-echo 'testdgesv'
 ma0=. 0 0$0
 mb0=. 0 0$0
 ma1=. ?. 10 10$100

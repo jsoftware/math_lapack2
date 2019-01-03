@@ -100,7 +100,7 @@ qvec=. (nilo idmat qsize) + (((0 , <: ilo) ,: qsize) (nilo & sltri) ;. 0 a)
 q=. mp/ (idmat n) -"2 (((0 >. <: ilo) ,: ldiff) ] ;. 0 tau) * (* +)"0/~"1 |:qvec
 
 echo h;q
-echo r=. h match`matchf@.(x>1) clean (+|:q) mp a0 mp q
+echo r=. h match`matchf@.(x>1) clean`cleanf@.(x>1) (+|:q) mp a0 mp q
 0{::r
 )
 
@@ -116,7 +116,6 @@ ma5=. 0 ios } ma4
 assert. 0&tdgehrd &> (< ma0;1;(#ma0)) , (< ma1;1;(#ma1)) , (< ma2;2;9)
 assert. 1&tdgehrd &> (< ma3;1;(#ma3)) , (< ma4;1;(#ma4)) , (< ma5;2;9)
 assert. 2&tdgehrd &> (< ma0;1;(#ma0)) , (< ma1;1;(#ma1)) , (< ma2;2;9)
-NB. scale down because clean not work well
-assert. 3&tdgehrd &> (< (1e_3*ma3);1;(#ma3)) , (< (1e_3*ma4);1;(#ma4)) , (< (1e_3*ma5);2;9)
+assert. 3&tdgehrd &> (< ma3;1;(#ma3)) , (< ma4;1;(#ma4)) , (< ma5;2;9)
 EMPTY
 )

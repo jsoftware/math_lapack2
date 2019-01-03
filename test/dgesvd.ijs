@@ -165,13 +165,12 @@ U=. |:U
 VT=. +VT
 S=. (m-n) diagmat S
 echo U;S;VT
-echo r=. a match`matchf@.(x>1) clean U mp S mp +|:VT
+echo r=. a match`matchf@.(x>1) clean`cleanf@.(x>1) U mp S mp +|:VT
 0{::r
 )
 
 NB. =========================================================
 testdgesvd=: 3 : 0
-echo 'testdgesvd'
 m0=. 0 0$0
 m1=. ?.4 4$10
 m2=. ?.4 6$10

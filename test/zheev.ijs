@@ -86,13 +86,12 @@ assert. 0= _1{::cdrc=. 0:`zheev`0:`cheev@.x (,'V');(,'U');(,n);(|:a);(,1>.m);(V=
 'R V'=. 4 6{cdrc
 R=. |:R
 echo V;R
-echo r=. (clean a mp R) match`matchf@.(x>1) (clean V *"1 R)
+echo r=. (clean`cleanf@.(x>1) a mp R) match`matchf@.(x>1) (clean`cleanf@.(x>1) V *"1 R)
 0{::r
 )
 
 NB. =========================================================
 testzheev=: 3 : 0
-echo 'testzheev'
 m3=. (+ (+@|:)) j./ ?.2 6 6$10
 assert 1&tzheev m3
 assert 3&tzheev m3

@@ -89,13 +89,12 @@ nrhs=. {:@$mvb
 assert. 0= _1{::cdrc=. dtrtrs`ztrtrs`strtrs`ctrtrs@.x (,'U');(,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.n);,_1
 R=. n{. |: 8{::cdrc
 echo R
-echo r=. mvb match`matchf@.(x>1) clean ma mp R
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
 0{::r
 )
 
 NB. =========================================================
 testdtrtrs=: 3 : 0
-echo 'testdtrtrs'
 ma0=. 0 0$0
 mb0=. 0 0$0
 ma1=. utri 1+ ?. 10 10$100
@@ -114,8 +113,7 @@ ma7=. utri j./ ?. 2 10 10$100
 vb7=. j./ ?. 2 10$50
 assert. 0&tdtrtrs &> (< ma0;mb0) , (< ma1;vb1) , (< ma2;mb2)
 assert. 1&tdtrtrs &> (< ma3;vb3) , (< ma4;vb4) , (< ma5;vb5) , (< ma6;vb6) , (< ma7;vb7)
-NB. scale down because clean not work well
-assert. 2&tdtrtrs &> 1e_3&*&.>&.> (< ma0;mb0) , (< ma1;vb1) , (< ma2;mb2)
-assert. 3&tdtrtrs &> 1e_3&*&.>&.> (< ma3;vb3) , (< ma4;vb4) , (< ma5;vb5) , (< ma6;vb6) , (< ma7;vb7)
+assert. 2&tdtrtrs &> (< ma0;mb0) , (< ma1;vb1) , (< ma2;mb2)
+assert. 3&tdtrtrs &> (< ma3;vb3) , (< ma4;vb4) , (< ma5;vb5) , (< ma6;vb6) , (< ma7;vb7)
 EMPTY
 )

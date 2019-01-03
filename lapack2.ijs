@@ -1335,7 +1335,8 @@ else.
 end.
 )
 matchclean=: 0: *./ . = clean @ , @: -
-matchcleanf=: 0: *./ . = 5e_5&clean @ , @: -
+neareq=: (2^_16) > [ |@:% -
+matchcleanf=: 0: *./ . neareq 5e_5&clean @ , @: -
 cleanf=: 5e_5&clean
 diagmat=: (0 $: ]) :(((0 (>. , -@<.) [) + #@]) {. (* =@i.@#)@])
 idmat=: (0 $: ]) :(= ({. -~/&i. {:)@])

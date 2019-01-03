@@ -83,13 +83,12 @@ assert. 0= _1{::cdrc=. dsyev`0:`ssyev`0:@.x (,'V');(,'U');(,n);(|:a);(,1>.m);(V=
 'R V'=. 4 6{cdrc
 R=. |:R
 echo V;R
-echo r=. (clean a mp R) match`matchf@.(x>1) (clean V *"1 R)
+echo r=. (clean`cleanf@.(x>1) a mp R) match`matchf@.(x>1) (clean`cleanf@.(x>1) V *"1 R)
 0{::r
 )
 
 NB. =========================================================
 testdsyev=: 3 : 0
-echo 'testdsyev'
 m0=. 0 0$dzero
 m1=. (+ |:) ?.6 6$10
 m2=. 0 0$dzero

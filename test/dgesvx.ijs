@@ -264,10 +264,10 @@ mvb=. zero + ,.^:(2>#@$)mvb
 nrhs=. {:@$mvb
 
 if. 0=2|x do.
-  assert. 0= _1{::cdrc=. dgesvx`0:`sgesvx`0:@.x (,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(af=. (n,1>.m)$zero);(,1>.n);(ipiv=. n$izero);(, equal=. ' ');(R=. n$dzero);(C=. n$dzero);(|:ldb{.mvb);(,ldb=. 1>.n);(X=. (nrhs,ldx)$zero);(,ldx=. 1>.n);(,dzero);(ferr=. nrhs$dzero);(berr=. nrhs$dzero);((4*n)$zero);(n$izero);,_1
+  assert. 0= _1{::cdrc=. dgesvx`0:`sgesvx`0:@.x (,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(af=. (n,1>.m)$zero);(,1>.n);(ipiv=. n$izero);(, equal=. ' ');(R=. n$dzero);(C=. n$dzero);(|:ldb{.mvb);(,ldb=. 1>.n);(X=. (nrhs,ldx)$zero);(,ldx=. 1>.n);(,dzero);(ferr=. nrhs$dzero);(berr=. nrhs$dzero);((1>.4*n)$zero);((1>.n)$izero);,_1
   'a af ipiv b X abyu'=. 5 7 9 13 15 20{cdrc
 else.
-  assert. 0= _1{::cdrc=. 0:`zgesvx`0:`cgesvx@.x (,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(af=. (n,1>.m)$zero);(,1>.n);(ipiv=. n$izero);(, equal=. ' ');(R=. n$dzero);(C=. n$dzero);(|:ldb{.mvb);(,ldb=. 1>.n);(X=. (nrhs,ldx)$zero);(,ldx=. 1>.n);(,dzero);(ferr=. nrhs$dzero);(berr=. nrhs$dzero);((2*n)$zero);((2*n)$dzero);,_1
+  assert. 0= _1{::cdrc=. 0:`zgesvx`0:`cgesvx@.x (,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(af=. (n,1>.m)$zero);(,1>.n);(ipiv=. n$izero);(, equal=. ' ');(R=. n$dzero);(C=. n$dzero);(|:ldb{.mvb);(,ldb=. 1>.n);(X=. (nrhs,ldx)$zero);(,ldx=. 1>.n);(,dzero);(ferr=. nrhs$dzero);(berr=. nrhs$dzero);((1>.2*n)$zero);((1>.2*n)$dzero);,_1
   'a af ipiv b X abyu'=. 5 7 9 13 15 21{cdrc
 end.
 a=. |: a
@@ -279,7 +279,7 @@ u=. l=. 0
 l=. (idmat n,m) + sltri af
 u=. utri af
 
-echo r=. mvb match`matchf@.(x>1) clean ma mp X
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp X
 0{::r
 )
 

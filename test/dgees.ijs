@@ -158,13 +158,12 @@ else.
   Z=. |:Z
 end.
 echo Z;T;W
-echo r=. a match`matchf@.(x>1) clean Z mp T mp +|:Z
+echo r=. a match`matchf@.(x>1) clean`cleanf@.(x>1) Z mp T mp +|:Z
 0{::r
 )
 
 NB. =========================================================
 testdgees=: 3 : 0
-echo 'testdgees'
 m0=. 0 0$0
 m1=. ?.6 6$10
 m2=. 0 0$zzero

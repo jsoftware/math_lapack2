@@ -89,7 +89,6 @@ echo r=. a match`matchf@.(x>1) ipiv invperm~ l mp u
 
 NB. =========================================================
 testdgetrf=: 3 : 0
-echo 'testdgetrf'
 m0=. 0 0$0
 m1=. ?.4 6$10
 m2=. ?.6 4$10

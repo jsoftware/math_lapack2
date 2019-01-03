@@ -131,13 +131,12 @@ lwork=. 1 >. (m<.n) + ((m<.n) >. nrhs)*4
 assert. 0= _1{::cdrc=. dgels`zgels`sgels`cgels@.x (,'N');(,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.m>.n);(lwork$zero);(,lwork);,_1
 R=. n{. |: 7{::cdrc
 echo R
-echo r=. mvb match`matchf@.(x>1) clean ma mp R
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
 0{::r
 )
 
 NB. =========================================================
 testdgels=: 3 : 0
-echo 'testdgels'
 dma0=. 0 0$0
 dmb0=. 0 0$0
 dma1=. ?. 10 5$100          NB. match fails for this pair since solution is least squares

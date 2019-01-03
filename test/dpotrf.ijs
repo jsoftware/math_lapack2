@@ -72,7 +72,6 @@ echo r=. a match`matchf@.(x>1) L mp +|:L
 
 NB. =========================================================
 testdpotrf=: 3 : 0
-echo 'testdpotrf'
 m0=. 0 0$0
 m1=. (mp |:) ?.4 4$10
 m2=. (mp |:) _25 + ?.10 10$100
@@ -81,9 +80,8 @@ m4=. (mp (+ @ |:)) j./ ?.2 4 4$10
 m5=. (mp (+ @ |:)) _25 + j./ ?.2 10 10$100
 assert. 0&tdpotrf &> m0;m1;m2;m3
 assert. 1&tdpotrf &> m4;m5
-NB. scale down because clean not work well
-assert. 2&tdpotrf &> 1e_3&*&.> m0;m1;m2;m3
-assert. 3&tdpotrf &> 1e_3&*&.> m4;m5
+assert. 2&tdpotrf &> m0;m1;m2;m3
+assert. 3&tdpotrf &> m4;m5
 EMPTY
 )
 
