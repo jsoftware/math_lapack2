@@ -17,7 +17,7 @@ elseif. UNAME-:'Darwin' do.
   end.
 elseif. UNAME-:'Android' do.
   arch=. LF-.~ 2!:0'getprop ro.product.cpu.abi'
-  liblapack=: (jpath'~bin/../libexec/android-libs/',arch,'/liblapack.so')
+  liblapack=: (jpath'~bin/../libexec/',arch,'/liblapack.so')
 elseif. do.
   liblapack=: jpath '~addons/math/lapack2/lib/liblapack3',((-.IF64)#'_32'),'.dll'
 end.
