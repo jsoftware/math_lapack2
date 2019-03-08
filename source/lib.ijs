@@ -4,6 +4,7 @@ NB. =========================================================
 NB. library:
 NB. First part of this script is making sure the library is loaded
 3 : 0''
+if. 0=4!:0<'liblapack' do. '' return. end.
 if. UNAME-:'Linux' do.
   liblapack=: 'liblapack.so.3'
 elseif. UNAME-:'Darwin' do.
