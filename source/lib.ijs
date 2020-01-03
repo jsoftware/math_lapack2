@@ -18,6 +18,11 @@ elseif. UNAME-:'Darwin' do.
   end.
 elseif. UNAME-:'Android' do.
   arch=. LF-.~ 2!:0'getprop ro.product.cpu.abi'
+  if. IF64 < arch-:'arm64-v8a' do.
+    arch=. 'armeabi-v7a'
+  elseif. IF64 < arch-:'x86_64' do.
+    arch=. 'x86'
+  end.
   liblapack=: (jpath'~bin/../libexec/',arch,'/liblapack.so')
 elseif. do.
   liblapack=: jpath '~addons/math/lapack2/lib/liblapack3',((-.IF64)#'_32'),'.dll'
@@ -49,6 +54,11 @@ to=. liblapack_jlapack2_
 if. UNAME-:'Android' do.
   path=. 'http://www.jsoftware.com/download/'
   arch=. LF-.~ 2!:0'getprop ro.product.cpu.abi'
+  if. IF64 < arch-:'arm64-v8a' do.
+    arch=. 'armeabi-v7a'
+  elseif. IF64 < arch-:'x86_64' do.
+    arch=. 'x86'
+  end.
   fm=. path,'android/libs/',z=. arch,'/liblapack.so'
   'res p'=. httpget_jpacman_ fm
   if. res do.
