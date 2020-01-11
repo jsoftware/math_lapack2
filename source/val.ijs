@@ -32,11 +32,11 @@ y-:|:y
 )
 
 NB. =========================================================
-f=. 2 : 'm&(13!:8)@(#&12)@(0 e. v)'
-
-vmatrix=: 'argument should be a matrix' f ismatrix
-vmatrixorvector=: 'argument should be either a matrix or vector' f ismatrixorvector
-vhermitian=: 'argument should be a hermitian matrix' f ishermitian [ vmatrix
-vorthogonal=: 'argument should be an orthogonal matrix' f isorthogonal [ vmatrix
-vsquare=: 'argument should be a square matrix' f issquare [ vmatrix
-vsymposdef=: 'argument should be a symmetric positive-definite matrix' f issymposdef [ vmatrix
+NB. f=. 2 : 'm&(13!:8)@(#&12)@(0 e. v)'
+NB. 
+NB. vmatrix=: 'argument should be a matrix' f ismatrix
+NB. vmatrixorvector=: 'argument should be either a matrix or vector' f ismatrixorvector
+NB. vhermitian=: 'argument should be a hermitian matrix' f ishermitian [ vmatrix
+NB. vorthogonal=: 'argument should be an orthogonal matrix' f isorthogonal [ vmatrix
+NB. vsquare=: 'argument should be a square matrix' f issquare [ vmatrix
+NB. vsymposdef=: 'argument should be a symmetric positive-definite matrix' f issymposdef [ vmatrix

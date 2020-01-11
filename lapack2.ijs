@@ -20,6 +20,9 @@ elseif. UNAME-:'Android' do.
     arch=. 'x86'
   end.
   liblapack=: (jpath'~bin/../libexec/',arch,'/liblapack.so')
+  if. -.fexist liblapack do.
+    liblapack=: (({.~ i:&'/') LIBFILE),'/liblapack.so'
+  end.
 elseif. do.
   liblapack=: jpath '~addons/math/lapack2/lib/liblapack3',((-.IF64)#'_32'),'.dll'
 end.
@@ -34,7 +37,7 @@ if. ((dquote liblapack) ,' dummyfunction n')&cd :: (1={.@cder) '' do.
 end.
 )
 getbin=: 3 : 0
-if. +./ (UNAME-:'Darwin'),(UNAME-:'Linux') do. return. end.
+if. +./ (UNAME-:'Darwin'),(UNAME-:'Linux'),(UNAME-:'Android') do. return. end.
 require 'pacman'
 path=. 'http://www.jsoftware.com/download/lapackbin/'
 arg=. HTTPCMD_jpacman_
@@ -1367,5 +1370,20 @@ n (i,j)}"1 y
 ipiv2scrp=: <"1@(#~ ~:/"1)@(i.@# ,. <:)
 invperm=: C.~ ipiv2scrp
 makepermat=: C. @ ipiv2scrp =/ i. @ #
+iscomplex=: -. @ (-: +)
+isvector=: 1: = #@$
+ismatrix=: 2: = #@$
+ismatrixorvector=: 1 2 e.~ #@$
+isreal=: -: +
+issquare=: =/ @ $
+ishermitian=: -: +@|:
+isorthogonal=: 3 : 0
+q=. y mp |: y
+*./ 0 = clean ,q - idmat $q
+)
+issymposdef=: 3 : 0
+if. 0==/$y do. 0 return. end.
+y-:|:y
+)
 checklibrary$0
 cocurrent 'base'

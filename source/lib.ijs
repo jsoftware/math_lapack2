@@ -24,6 +24,9 @@ elseif. UNAME-:'Android' do.
     arch=. 'x86'
   end.
   liblapack=: (jpath'~bin/../libexec/',arch,'/liblapack.so')
+  if. -.fexist liblapack do.
+    liblapack=: (({.~ i:&'/') LIBFILE),'/liblapack.so'
+  end.
 elseif. do.
   liblapack=: jpath '~addons/math/lapack2/lib/liblapack3',((-.IF64)#'_32'),'.dll'
 end.
@@ -44,7 +47,7 @@ NB. =========================================================
 NB. get lapack2 binary
 NB. uses routines from pacman
 getbin=: 3 : 0
-if. +./ (UNAME-:'Darwin'),(UNAME-:'Linux') do. return. end.
+if. +./ (UNAME-:'Darwin'),(UNAME-:'Linux'),(UNAME-:'Android') do. return. end.
 require 'pacman'
 path=. 'http://www.jsoftware.com/download/lapackbin/'
 arg=. HTTPCMD_jpacman_

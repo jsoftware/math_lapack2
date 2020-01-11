@@ -11,14 +11,16 @@ Binary for Mac/iOS is provided by the veclib framework.
 
 Binary for Linux, install liblapack3 (or similar) from your distro repository. If available, install libopenblas-base or libatlas3-base which provides an optimized version of BLAS.
 
-For both Windows and Android, run getbin_jlapack2_'' to install the shared library.
+For Windows, run getbin_jlapack2_'' to install the shared library.
 
 Both Windows and Android binary provided here use reference BLAS.
 
 Reference BLAS implementation may be orders of magnitude slower than optimized implementations. Build your own optimized BLAS if speed performance is critical.
+
+See wiki page: code.jsoftware.com/wiki/Vocabulary/LAPACK
 )
 
-VERSION=: '1.0.06'
+VERSION=: '1.0.07'
 
 RELEASE=: ''
 
@@ -27,6 +29,7 @@ FOLDER=: 'math/lapack2'
 FILES=: 0 : 0
 lapack2.ijs
 lib/readme.txt
+example/
 test/
 )
 
