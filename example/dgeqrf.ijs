@@ -137,8 +137,6 @@ NB.     [out]    INFO            = 0:  successful exit
 NB.                              < 0:  if INFO = -i, the i-th argument has an illegal value
 
 require 'math/lapack2'
-cocurrent 'base'
-coinsert 'jlapack2'
 
 NB. QR factorization sample data
 NB.
@@ -148,35 +146,36 @@ NB. _4  24 _41
 
 NB. return q r
 do_dgeqrf=: 3 : 0
+assert. 2=#$y
 a=. y
-'m n'=. $a
+'m n'=. ,"0 $a
 mn=. m<.n
 
 NB. call with lwork = _1 to query optimal workspace size
-NB. lapack expect column major |:a
-assert. 0= LASTINFO=: _1{::cdrc=. dgeqrf (,m);(,n);(|:a);(,1>.m);(mn$0.0);(,0.0);(,_1);,_1
+NB. lapack expect column major order |:a
+assert. 0= LASTINFO=: _1{::cdrc=. dgeqrf_jlapack2_ m;n;(|:a);(1>.m);(mn$0.0);(,0.0);(,_1);,_1
 
-lwork=. <.@{. _3{::cdrc
+lwork=. <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= LASTINFO=: _1{::cdrc=. dgeqrf (,m);(,n);(|:a);(,1>.m);(mn$0.0);(lwork$0.0);(,lwork);,_1
+assert. 0= LASTINFO=: _1{::cdrc=. dgeqrf_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
 
-val=. 3{::cdrc         NB. val is column major
+val=. 3{::cdrc         NB. val is in column major order
 tau=. 5{::cdrc
-r=. mn {. utri |:val   NB. upper triangular of row major
+r=. mn {. utri_jlapack2_ |:val   NB. upper triangular of row major
 
 NB. create orthogonal matrix q from temp val
 NB. call with lwork = _1 to query optimal workspace size
-NB. val already column major
-assert. 0= LASTINFO=: _1{::cdrc=. dorgqr (,m);(,n);(,n);(val);(,1>.m);tau;(,0.0);(,_1);,_1
-lwork=. <.@{. _3{::cdrc
+NB. val already in column major order, no need to transpose
+assert. 0= LASTINFO=: _1{::cdrc=. dorgqr_jlapack2_ m;n;n;val;(1>.m);tau;(,0.0);(,_1);,_1
+
+lwork=. <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= LASTINFO=: _1{::cdrc=. dorgqr (,m);(,n);(,n);(val);(,1>.m);tau;(lwork$0.0);(,lwork);,_1
-val=. 4{::cdrc
+assert. 0= LASTINFO=: _1{::cdrc=. dorgqr_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
 
-(|:val);r
+(|:4{::cdrc);r
 )
 
-'q r'=: do_dgeqrf a=: 3 3 $12 _51 4 6 167 _68 _4 24 _41
-echo a ; q ; r ; (q mp r)
+'q r'=: do_dgeqrf a=: 3 3 $12.0 _51 4 6 167 _68 _4 24 _41
+echo a ; q ; r ; (q (+/ .*) r)

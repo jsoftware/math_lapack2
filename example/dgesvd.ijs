@@ -134,8 +134,6 @@ NB.                                    did not converge to zero. See the descrip
 NB.                                    above for details.
 
 require 'math/lapack2'
-cocurrent 'base'
-coinsert 'jlapack2'
 
 NB. Singular value decomposition (svd) sample data
 NB.
@@ -145,18 +143,19 @@ NB. 0.3333   0.25    0.2 0.1667
 
 NB. return s u vt
 do_dgesvd=: 3 : 0
+assert. 2=#$y
 a=. y
-'m n'=. $a
+'m n'=. ,"0 $a
 mn=. m<.n
 
 NB. call with lwork = _1 to query optimal workspace size
-NB. lapack expect column major |:a
-assert. 0= LASTINFO=: _1{::cdrc=. dgesvd (,'A');(,'A');(,m);(,n);(|:a);(,1>.m);(mn$0.0);(0.0$~ldu,m);(,ldu=. 1>.m);(0.0$~ldvt,n);(,ldvt=. 1>.n);(,0.0);(,_1);,_1
+NB. lapack expect column major order |:a
+assert. 0= LASTINFO=: _1{::cdrc=. dgesvd_jlapack2_ (,'A');(,'A');m;n;(|:a);(1>.m);(mn$0.0);(0.0$~ldu,m);(ldu=. 1>.m);(0.0$~ldvt,n);(ldvt=. 1>.n);(,0.0);(,_1);,_1
 
-lwork=. <.@{. _3{::cdrc
+lwork=. <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= LASTINFO=: _1{::cdrc=. dgesvd (,'A');(,'A');(,m);(,n);(|:a);(,1>.m);(mn$0.0);(0.0$~ldu,m);(,ldu=. 1>.m);(0.0$~ldvt,n);(,ldvt=. 1>.n);(lwork$0.0);(,lwork);,_1
+assert. 0= LASTINFO=: _1{::cdrc=. dgesvd_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
 
 's u vt'=. 7 8 10{cdrc
 s;(m{.|:u);n{.|:vt
@@ -170,5 +169,5 @@ a=: ".;._2[0 : 0
 
 's u vt'=: do_dgesvd a
 echo (,.s);u;vt
-sigma=:  ($a)$,s,("0 1) 0#~{:$a   NB. diagonal is s
-echo a;u mp sigma mp vt
+echo sigma=:  ($a)$,s,("0 1) 0#~{:$a   NB. diagonal is s
+echo a;u (+/ .*) sigma (+/ .*) vt
