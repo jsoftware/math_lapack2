@@ -11,12 +11,13 @@ NB. validation routines that check argument is either
 NB. a matrix or vector:
 NB.    vmatrixorvector
 
+isreal=: -: +
 iscomplex=: -. @ (-: +)
 isvector=: 1: = #@$
 ismatrix=: 2: = #@$
 ismatrixorvector=: 1 2 e.~ #@$
-isreal=: -: +
 issquare=: =/ @ $
+issymmetric=: -:   |:
 ishermitian=: -: +@|:
 
 NB. =========================================================
@@ -26,9 +27,9 @@ q=. y mp |: y
 )
 
 NB. =========================================================
-issymposdef=: 3 : 0
-if. 0==/$y do. 0 return. end.
-y-:|:y
+isunitary=: 3 : 0
+q=. y mp + |: y
+*./ 0 = clean ,q - idmat $q
 )
 
 NB. =========================================================
@@ -39,4 +40,3 @@ NB. vmatrixorvector=: 'argument should be either a matrix or vector' f ismatrixo
 NB. vhermitian=: 'argument should be a hermitian matrix' f ishermitian [ vmatrix
 NB. vorthogonal=: 'argument should be an orthogonal matrix' f isorthogonal [ vmatrix
 NB. vsquare=: 'argument should be a square matrix' f issquare [ vmatrix
-NB. vsymposdef=: 'argument should be a symmetric positive-definite matrix' f issymposdef [ vmatrix
