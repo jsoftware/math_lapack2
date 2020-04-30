@@ -1367,10 +1367,11 @@ z=. j. j {"1 y
 n=. (r+z) ,. r-z
 n (i,j)}"1 y
 )
-ipiv2scrp=: <"1@(#~ ~:/"1)@(i.@# ,. <:)
+ipiv2scrp=: ((}:^:({. -: {:))&.>)@:(<"1)@((i.@# ,. <:) : (((0 (1 i.@- {) [) ([ ,. <:@{) ]) , (,.~@(] + i.@-) <:)~/@[ , (1 { [) ((([ + i.@-~) #) ,. (- #) <:@{. ]) ]))
 invperm=: C.~ ipiv2scrp
-makepermat=: C. @ ipiv2scrp =/ i. @ #
 iscomplex=: -. @ (-: +)
+makeper=: C.@ipiv2scrp
+makepermat=: ({ =)@makeper
 isvector=: 1: = #@$
 ismatrix=: 2: = #@$
 ismatrixorvector=: 1 2 e.~ #@$
