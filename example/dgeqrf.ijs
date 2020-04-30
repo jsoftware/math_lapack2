@@ -78,50 +78,50 @@ NB.                     integer                                LDA,
 NB.                     double precision, dimension( * )       TAU,
 NB.                     double precision, dimension( * )       WORK,
 NB.                     integer                                LWORK,
-NB.                     integer                                INFO 
+NB.                     integer                                INFO
 NB.                   )
-NB. 
+NB.
 NB. DORGQR
-NB. 
+NB.
 NB. Purpose:
-NB. 
+NB.
 NB.      DORGQR generates an M-by-N real matrix Q with orthonormal columns,
 NB.      which is defined as the first N columns of a product of K elementary
 NB.      reflectors of order M
-NB. 
+NB.
 NB.            Q  =  H(1) H(2) . . . H(k)
-NB. 
+NB.
 NB.      as returned by DGEQRF.
-NB. 
+NB.
 NB. Parameters
-NB. 
+NB.
 NB.                              M is INTEGER
 NB.     [in]     M               The number of rows of the matrix Q. M >= 0.
-NB. 
+NB.
 NB.                              N is INTEGER
 NB.     [in]     N               The number of columns of the matrix Q. M >= N >= 0.
-NB. 
+NB.
 NB.                              K is INTEGER
 NB.     [in]     K               The number of elementary reflectors whose product defines the
 NB.                              matrix Q. N >= K >= 0.
-NB. 
+NB.
 NB.                              A is DOUBLE PRECISION array, dimension (LDA,N)
 NB.                              On entry, the i-th column must contain the vector which
 NB.                              defines the elementary reflector H(i), for i = 1,2,...,k, as
 NB.     [in,out] A               returned by DGEQRF in the first k columns of its array
 NB.                              argument A.
 NB.                              On exit, the M-by-N matrix Q.
-NB. 
+NB.
 NB.                              LDA is INTEGER
 NB.     [in]     LDA             The first dimension of the array A. LDA >= max(1,M).
-NB. 
+NB.
 NB.                              TAU is DOUBLE PRECISION array, dimension (K)
 NB.     [in]     TAU             TAU(i) must contain the scalar factor of the elementary
 NB.                              reflector H(i), as returned by DGEQRF.
-NB. 
+NB.
 NB.                              WORK is DOUBLE PRECISION array, dimension (MAX(1,LWORK))
 NB.     [out]    WORK            On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
-NB. 
+NB.
 NB.                              LWORK is INTEGER
 NB.                              The dimension of the array WORK. LWORK >= max(1,N).
 NB.                              For optimum performance LWORK >= N*NB, where NB is the
@@ -131,7 +131,7 @@ NB.                              If LWORK = -1, then a workspace query is assume
 NB.                              only calculates the optimal size of the WORK array, returns
 NB.                              this value as the first entry of the WORK array, and no error
 NB.                              message related to LWORK is issued by XERBLA.
-NB. 
+NB.
 NB.                              INFO is INTEGER
 NB.     [out]    INFO            = 0:  successful exit
 NB.                              < 0:  if INFO = -i, the i-th argument has an illegal value

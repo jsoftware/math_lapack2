@@ -33,7 +33,7 @@ y-:|:y
 
 NB. =========================================================
 NB. f=. 2 : 'm&(13!:8)@(#&12)@(0 e. v)'
-NB. 
+NB.
 NB. vmatrix=: 'argument should be a matrix' f ismatrix
 NB. vmatrixorvector=: 'argument should be either a matrix or vector' f ismatrixorvector
 NB. vhermitian=: 'argument should be a hermitian matrix' f ishermitian [ vmatrix

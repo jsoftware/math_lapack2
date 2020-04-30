@@ -3,48 +3,48 @@ NB.                     integer                                N,
 NB.                     double precision, dimension( lda, * )  A,
 NB.                     integer                                LDA,
 NB.                     integer, dimension( * )                IPIV,
-NB.                     integer                                INFO 
+NB.                     integer                                INFO
 NB.                   )
-NB. 
+NB.
 NB. DGETRF
-NB. 
+NB.
 NB. DGETRF VARIANT: iterative version of Sivan Toledo's recursive LU algorithm
-NB. 
+NB.
 NB. DGETRF VARIANT: left-looking Level 3 BLAS version of the algorithm.
-NB. 
+NB.
 NB. Purpose:
-NB. 
+NB.
 NB.      DGETRF computes an LU factorization of a general M-by-N matrix A
 NB.      using partial pivoting with row interchanges.
-NB. 
+NB.
 NB.      The factorization has the form
 NB.         A = P * L * U
 NB.      where P is a permutation matrix, L is lower triangular with unit
 NB.      diagonal elements (lower trapezoidal if m > n), and U is upper
 NB.      triangular (upper trapezoidal if m < n).
-NB. 
+NB.
 NB.      This is the right-looking Level 3 BLAS version of the algorithm.
-NB. 
+NB.
 NB. Parameters
-NB. 
+NB.
 NB.                             M is INTEGER
 NB.     [in]     M              The number of rows of the matrix A.  M >= 0.
-NB. 
+NB.
 NB.                             N is INTEGER
 NB.     [in]     N              The number of columns of the matrix A.  N >= 0.
-NB. 
+NB.
 NB.                             A is DOUBLE PRECISION array, dimension (LDA,N)
 NB.                             On entry, the M-by-N matrix to be factored.
 NB.     [in,out] A              On exit, the factors L and U from the factorization
 NB.                             A = P*L*U; the unit diagonal elements of L are not stored.
-NB. 
+NB.
 NB.                             LDA is INTEGER
 NB.     [in]     LDA            The leading dimension of the array A.  LDA >= max(1,M).
-NB. 
+NB.
 NB.                             IPIV is INTEGER array, dimension (min(M,N))
 NB.     [out]    IPIV           The pivot indices; for 1 <= i <= min(M,N), row i of the
 NB.                             matrix was interchanged with row IPIV(i).
-NB. 
+NB.
 NB.                             INFO is INTEGER
 NB.                             = 0:  successful exit
 NB.                             < 0:  if INFO = -i, the i-th argument had an illegal value
@@ -59,39 +59,39 @@ NB.                     integer                                LDA,
 NB.                     integer, dimension( * )                IPIV,
 NB.                     double precision, dimension( * )       WORK,
 NB.                     integer                                LWORK,
-NB.                     integer                                INFO 
+NB.                     integer                                INFO
 NB.                   )
-NB. 
+NB.
 NB. DGETRI
-NB. 
+NB.
 NB. Purpose:
-NB. 
+NB.
 NB.      DGETRI computes the inverse of a matrix using the LU factorization
 NB.      computed by DGETRF.
-NB. 
+NB.
 NB.      This method inverts U and then computes inv(A) by solving the system
 NB.      inv(A)*L = inv(U) for inv(A).
-NB. 
+NB.
 NB. Parameters
-NB. 
+NB.
 NB.                              N is INTEGER
 NB.     [in]     N               The order of the matrix A.  N >= 0.
-NB. 
+NB.
 NB.                              A is DOUBLE PRECISION array, dimension (LDA,N)
 NB.                              On entry, the factors L and U from the factorization
 NB.     [in,out] A               A = P*L*U as computed by DGETRF.
 NB.                              On exit, if INFO = 0, the inverse of the original matrix A.
-NB. 
+NB.
 NB.                              LDA is INTEGER
 NB.     [in]     LDA             The leading dimension of the array A.  LDA >= max(1,N).
-NB. 
+NB.
 NB.                              IPIV is INTEGER array, dimension (N)
 NB.     [in]     IPIV            The pivot indices from DGETRF; for 1<=i<=N, row i of the
 NB.                              matrix was interchanged with row IPIV(i).
-NB. 
+NB.
 NB.                              WORK is DOUBLE PRECISION array, dimension (MAX(1,LWORK))
 NB.     [out]    WORK            On exit, if INFO=0, then WORK(1) returns the optimal LWORK.
-NB. 
+NB.
 NB.                              LWORK is INTEGER
 NB.                              The dimension of the array WORK.  LWORK >= max(1,N).
 NB.                              For optimal performance LWORK >= N*NB, where NB is
@@ -101,7 +101,7 @@ NB.                              If LWORK = -1, then a workspace query is assume
 NB.                              only calculates the optimal size of the WORK array, returns
 NB.                              this value as the first entry of the WORK array, and no error
 NB.                              message related to LWORK is issued by XERBLA.
-NB. 
+NB.
 NB.                              INFO is INTEGER
 NB.                              = 0:  successful exit
 NB.     [out]    INFO            < 0:  if INFO = -i, the i-th argument had an illegal value

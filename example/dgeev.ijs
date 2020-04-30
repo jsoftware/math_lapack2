@@ -11,56 +11,56 @@ NB.                    double precision, dimension( ldvr, * )  VR,
 NB.                    integer                                 LDVR,
 NB.                    double precision, dimension( * )        WORK,
 NB.                    integer                                 LWORK,
-NB.                    integer                                 INFO 
+NB.                    integer                                 INFO
 NB.                  )
-NB. 
+NB.
 NB. DGEEV computes the eigenvalues and, optionally, the left and/or right eigenvectors for GE
 NB. matrices
-NB. 
+NB.
 NB. Purpose:
-NB. 
+NB.
 NB.      DGEEV computes for an N-by-N real nonsymmetric matrix A, the
 NB.      eigenvalues and, optionally, the left and/or right eigenvectors.
-NB. 
+NB.
 NB.      The right eigenvector v(j) of A satisfies
 NB.                       A * v(j) = lambda(j) * v(j)
 NB.      where lambda(j) is its eigenvalue.
 NB.      The left eigenvector u(j) of A satisfies
 NB.                    u(j)**H * A = lambda(j) * u(j)**H
 NB.      where u(j)**H denotes the conjugate-transpose of u(j).
-NB. 
+NB.
 NB.      The computed eigenvectors are normalized to have Euclidean norm
 NB.      equal to 1 and largest component real.
-NB. 
+NB.
 NB. Parameters
-NB. 
+NB.
 NB.                              JOBVL is CHARACTER*1
 NB.     [in]     JOBVL           = 'N': left eigenvectors of A are not computed;
 NB.                              = 'V': left eigenvectors of A are computed.
-NB. 
+NB.
 NB.                              JOBVR is CHARACTER*1
 NB.     [in]     JOBVR           = 'N': right eigenvectors of A are not computed;
 NB.                              = 'V': right eigenvectors of A are computed.
-NB. 
+NB.
 NB.                              N is INTEGER
 NB.     [in]     N               The order of the matrix A. N >= 0.
-NB. 
+NB.
 NB.                              A is DOUBLE PRECISION array, dimension (LDA,N)
 NB.     [in,out] A               On entry, the N-by-N matrix A.
 NB.                              On exit, A has been overwritten.
-NB. 
+NB.
 NB.                              LDA is INTEGER
 NB.     [in]     LDA             The leading dimension of the array A.  LDA >= max(1,N).
-NB. 
+NB.
 NB.     [out]    WR              WR is DOUBLE PRECISION array, dimension (N)
-NB. 
+NB.
 NB.                              WI is DOUBLE PRECISION array, dimension (N)
 NB.                              WR and WI contain the real and imaginary parts,
 NB.                              respectively, of the computed eigenvalues.  Complex
 NB.     [out]    WI              conjugate pairs of eigenvalues appear consecutively
 NB.                              with the eigenvalue having the positive imaginary part
 NB.                              first.
-NB. 
+NB.
 NB.                              VL is DOUBLE PRECISION array, dimension (LDVL,N)
 NB.                              If JOBVL = 'V', the left eigenvectors u(j) are stored one
 NB.                              after another in the columns of VL, in the same order
@@ -71,11 +71,11 @@ NB.                              the j-th column of VL.
 NB.                              If the j-th and (j+1)-st eigenvalues form a complex
 NB.                              conjugate pair, then u(j) = VL(:,j) + i*VL(:,j+1) and
 NB.                              u(j+1) = VL(:,j) - i*VL(:,j+1).
-NB. 
+NB.
 NB.                              LDVL is INTEGER
 NB.     [in]     LDVL            The leading dimension of the array VL.  LDVL >= 1; if
 NB.                              JOBVL = 'V', LDVL >= N.
-NB. 
+NB.
 NB.                              VR is DOUBLE PRECISION array, dimension (LDVR,N)
 NB.                              If JOBVR = 'V', the right eigenvectors v(j) are stored one
 NB.                              after another in the columns of VR, in the same order
@@ -86,14 +86,14 @@ NB.                              the j-th column of VR.
 NB.                              If the j-th and (j+1)-st eigenvalues form a complex
 NB.                              conjugate pair, then v(j) = VR(:,j) + i*VR(:,j+1) and
 NB.                              v(j+1) = VR(:,j) - i*VR(:,j+1).
-NB. 
+NB.
 NB.                              LDVR is INTEGER
 NB.     [in]     LDVR            The leading dimension of the array VR.  LDVR >= 1; if
 NB.                              JOBVR = 'V', LDVR >= N.
-NB. 
+NB.
 NB.                              WORK is DOUBLE PRECISION array, dimension (MAX(1,LWORK))
 NB.     [out]    WORK            On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
-NB. 
+NB.
 NB.                              LWORK is INTEGER
 NB.                              The dimension of the array WORK.  LWORK >= max(1,3*N), and
 NB.                              if JOBVL = 'V' or JOBVR = 'V', LWORK >= 4*N.  For good
@@ -103,7 +103,7 @@ NB.                              If LWORK = -1, then a workspace query is assume
 NB.                              only calculates the optimal size of the WORK array, returns
 NB.                              this value as the first entry of the WORK array, and no error
 NB.                              message related to LWORK is issued by XERBLA.
-NB. 
+NB.
 NB.                              INFO is INTEGER
 NB.                              = 0:  successful exit
 NB.                              < 0:  if INFO = -i, the i-th argument had an illegal value.
