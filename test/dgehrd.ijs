@@ -89,8 +89,6 @@ assert. 0= _1{::cdrc=. dgehrd`zgehrd`sgehrd`cgehrd@.x (,m);(,ilo);(,ihi);(|:a);(
 a=. |: a
 ilo=. {. ilo
 iho=. {. iho
-h=. q=. 0
-
 h=. _1 utri a
 
 ldiff=. 0 >. ihi-ilo  NB. '>.' to fix case 0=n

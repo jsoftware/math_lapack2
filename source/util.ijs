@@ -201,16 +201,61 @@ n (i,j)}"1 y
 NB. =========================================================
 NB. pivot indices utilities
 NB.
-NB. pivot indices come from DGETRF, ZGETRF etc. as IPIV;
-NB. IPIV(i) and i are 1-based numbers of rows, mutually
-NB. interchanged in table
-NB.
-NB. invperm    - inverse permutation of x by pivot indices
-NB.              from y
-NB. makepermat - generate inverse permutation matrix P from
-NB.              pivot indices y
+NB. Pivot indices come from xGEBAL, xGGBAL, xGEEVX, xLASYF,
+NB. xGESV, xGESVX, xGETRF, xGETRI and xGETRS subroutines.
+NB. This are 1-based indices of rows and/or columns
+NB. interchanged in matrix.
+NB. Pivot indices came from xGEBAL, xGGBAL and xGEEVX
+NB. subroutines need to be separated from scaling factors
+NB. and reordered.
 
-NB. ipiv2scrp=: ((}: ^: ({. -: {:)) &. >)@(<"1)@(i.@# ,. <:)  NB. pivot indices to standard cycle representation of the permutation
-ipiv2scrp=: <"1@(#~ ~:/"1)@(i.@# ,. <:)  NB. pivot indices to standard cycle representation of the permutation
+NB. transform pivot indices to standard cycle representation of the permutation
+ipiv2scrp=: ((}:^:({. -: {:))&.>)@:(<"1)@((i.@# ,. <:) : (((0 (1 i.@- {) [) ([ ,. <:@{) ]) , (,.~@(] + i.@-) <:)~/@[ , (1 { [) ((([ + i.@-~) #) ,. (- #) <:@{. ]) ]))
+
+NB. do inverse permutation of x by pivot indices from y
 invperm=: C.~ ipiv2scrp
-makepermat=: C. @ ipiv2scrp =/ i. @ #
+
+NB. ---------------------------------------------------------
+NB. Generate permutation from pivot indices.
+NB.
+NB. Syntax:
+NB.   p=.             makeper    ipiv
+NB.   p=. (ilo , ihi) makeper    scale
+NB.   P=.             makepermat ipiv
+NB.   P=. (ilo , ihi) makepermat scale
+NB. where
+NB.   ipiv  - n-vector, integers in range [1,n], incremented
+NB.           pivot indices
+NB.   ilo   > 0, integer, incremented IO first column of
+NB.           scaled part of balanced matrix
+NB.   ihi   ≥ ilo, integer, incremented IO last column of
+NB.           scaled part of balanced matrix
+NB.   scale - n-vector, float:
+NB.              scale(j) = ipiv(j)    for j = 0    ,...,ilo-2
+NB.                       = d(j)       for j = ilo-1,...,ihi-1
+NB.                       = ipiv(j)    for j = ihi  ,...,n-1,
+NB.           the order in which the interchanges are made is
+NB.           n-1 to ihi, then 0 to ilo-2
+NB.   p     - n-vector, non-negative integers, permutation
+NB.   P     - n-by-n-matrix, non-negative integers,
+NB.           permutation matrix
+NB.
+NB. Storage layout:
+NB. - dyadic case forms the following pairs:
+NB.     part    length       IO         localIO    0-based pair (j , scale(j)-1)
+NB.     ----    ---------    -------    -------    -------------------------
+NB.     T1      ilo-1        0          0          ilo-2 , scale(ilo-2)-1
+NB.                          1          1          ilo-3 , scale(ilo-3)-1
+NB.                          ...        ...        ...
+NB.                          ilo-2      ilo-2      0     , scale(0)-1
+NB.     D       ihi-ilo+1    ilo-1      0          ilo-1 , ilo-1
+NB.                          ilo        1          ilo   , ilo
+NB.                          ...        ...        ...
+NB.                          ihi-1      ihi-ilo    ihi-1 , ihi-1
+NB.     T2      n-ihi        ihi        0          ihi   , scale(ihi)-1
+NB.                          ihi+1      1          ihi+1 , scale(ihi+1)-1
+NB.                          ...        ...        ...
+NB.                          n-1        n-ihi-1    n-1   , scale(n-1)-1
+
+makeper=: C.@ipiv2scrp
+makepermat=: ({ =)@makeper

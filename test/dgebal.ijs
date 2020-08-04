@@ -88,30 +88,9 @@ IHI=. {. IHI
 
 echo AB;ILO;IHI;SCALE
 
-n=. #y
-if. 0<n do.
-  dlen=. >: IHI-ILO
-  IOSdinp=. (<: ILO) + i. dlen
-  p=. (>: IOSdinp) IOSdinp } SCALE
-  P=. makepermat p
-  iP=. |: P
-  PAiP=. P mp y mp iP
-  if. dlen -: n do.
-    'T1 X Y Z10 B Z Z20 Z21 T2'=. 0 1 0 2 3 2 0 1 0 { (0 0 $ 0) ; ((0,n) $ 0) ; ((n,0) $ 0) ; y
-  else.
-    bcut=. 1 (0) } ((<: ILO) , IHI) e.~ i. n
-    'T1 X Y Z10 B Z Z20 Z21 T2'=. , (;~ bcut) <;.1 PAiP
-  end.
-  d=. IOSdinp { SCALE
-  D=. diagmat d
-  iD=. diagmat % d
-  XD=. X mp D
-  iDBD=. iD mp B mp D
-  iDZ=. iD mp Z
-  echo r=. AB match`matchf@.(x>1) (T1 ,. XD ,. Y) , (Z10 ,. iDBD ,. iDZ) , (Z20 ,. Z21 ,. T2)
-else.
-  echo r=. AB match`matchf@.(x>1) 0 0$0
-end.
+p=. (ILO , IHI) makeper SCALE
+d=. ((>:&ILO *. <:&IHI) #\ i. # y)} 1 ,: SCALE
+echo r=. AB match`matchf@.(x>1) d (*"1 % [) p ([ C."1 C.) y  NB. compare AB with D^_1 * P * A * P^_1 * D
 0{::r
 )
 

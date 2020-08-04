@@ -1,30 +1,30 @@
 NB. subroutine dpptrf ( character                         UPLO,
 NB.                     integer                           N,
 NB.                     double precision, dimension( * )  AP,
-NB.                     integer                           INFO 
+NB.                     integer                           INFO
 NB.                   )
-NB. 
+NB.
 NB. DPPTRF
-NB. 
+NB.
 NB. Purpose:
-NB. 
+NB.
 NB.      DPPTRF computes the Cholesky factorization of a real symmetric
 NB.      positive definite matrix A stored in packed format.
-NB. 
+NB.
 NB.      The factorization has the form
 NB.         A = U**T * U,  if UPLO = 'U', or
 NB.         A = L  * L**T,  if UPLO = 'L',
 NB.      where U is an upper triangular matrix and L is lower triangular.
-NB. 
+NB.
 NB. Parameters
-NB. 
+NB.
 NB.                             UPLO is CHARACTER*1
 NB.     [in]     UPLO           = 'U':  Upper triangle of A is stored;
 NB.                             = 'L':  Lower triangle of A is stored.
-NB. 
+NB.
 NB.                             N is INTEGER
 NB.     [in]     N              The order of the matrix A.  N >= 0.
-NB. 
+NB.
 NB.                             AP is DOUBLE PRECISION array, dimension (N*(N+1)/2)
 NB.                             On entry, the upper or lower triangle of the symmetric matrix
 NB.                             A, packed columnwise in a linear array.  The j-th column of A
@@ -32,11 +32,11 @@ NB.                             is stored in the array AP as follows:
 NB.                             if UPLO = 'U', AP(i + (j-1)*j/2) = A(i,j) for 1<=i<=j;
 NB.     [in,out] AP             if UPLO = 'L', AP(i + (j-1)*(2n-j)/2) = A(i,j) for j<=i<=n.
 NB.                             See below for further details.
-NB. 
+NB.
 NB.                             On exit, if INFO = 0, the triangular factor U or L from the
 NB.                             Cholesky factorization A = U**T*U or A = L*L**T, in the same
 NB.                             storage format as A.
-NB. 
+NB.
 NB.                             INFO is INTEGER
 NB.                             = 0:  successful exit
 NB.     [out]    INFO           < 0:  if INFO = -i, the i-th argument had an illegal value
@@ -50,30 +50,30 @@ NB.                     integer                                NRHS,
 NB.                     double precision, dimension( * )       AP,
 NB.                     double precision, dimension( ldb, * )  B,
 NB.                     integer                                LDB,
-NB.                     integer                                INFO 
+NB.                     integer                                INFO
 NB.                   )
-NB. 
+NB.
 NB. DPPTRS
-NB. 
+NB.
 NB. Purpose:
-NB. 
+NB.
 NB.      DPPTRS solves a system of linear equations A*X = B with a symmetric
 NB.      positive definite matrix A in packed storage using the Cholesky
 NB.      factorization A = U**T*U or A = L*L**T computed by DPPTRF.
-NB. 
+NB.
 NB. Parameters
-NB. 
+NB.
 NB.                             UPLO is CHARACTER*1
 NB.     [in]     UPLO           = 'U':  Upper triangle of A is stored;
 NB.                             = 'L':  Lower triangle of A is stored.
-NB. 
+NB.
 NB.                             N is INTEGER
 NB.     [in]     N              The order of the matrix A.  N >= 0.
-NB. 
+NB.
 NB.                             NRHS is INTEGER
 NB.     [in]     NRHS           The number of right hand sides, i.e., the number of columns
 NB.                             of the matrix B.  NRHS >= 0.
-NB. 
+NB.
 NB.                             AP is DOUBLE PRECISION array, dimension (N*(N+1)/2)
 NB.                             The triangular factor U or L from the Cholesky factorization
 NB.                             A = U**T*U or A = L*L**T, packed columnwise in a linear
@@ -81,14 +81,14 @@ NB.     [in]     AP             array.  The j-th column of U or L is stored in t
 NB.                             as follows:
 NB.                             if UPLO = 'U', AP(i + (j-1)*j/2) = U(i,j) for 1<=i<=j;
 NB.                             if UPLO = 'L', AP(i + (j-1)*(2n-j)/2) = L(i,j) for j<=i<=n.
-NB. 
+NB.
 NB.                             B is DOUBLE PRECISION array, dimension (LDB,NRHS)
 NB.     [in,out] B              On entry, the right hand side matrix B.
 NB.                             On exit, the solution matrix X.
-NB. 
+NB.
 NB.                             LDB is INTEGER
 NB.     [in]     LDB            The leading dimension of the array B.  LDB >= max(1,N).
-NB. 
+NB.
 NB.                             INFO is INTEGER
 NB.     [out]    INFO           = 0:  successful exit
 NB.                             < 0:  if INFO = -i, the i-th argument had an illegal value
@@ -103,7 +103,7 @@ NB.   4.16
 NB.  _3.12   5.03
 NB.   0.56  _0.83   0.76
 NB.  _0.10   1.18   0.34   1.18
-NB. 
+NB.
 NB. B is 2 x 4 matrix
 NB.   8.70   8.30
 NB. _13.35   2.13
@@ -137,10 +137,10 @@ _3.12  5.03 _0.83 1.18
 )
 
 NB. lower triagular packed format
-ap=: 4.16 _3.12 0.56 _0.10 5.03 _0.83 1.18 0.76 0.34 1.18  
+ap=: 4.16 _3.12 0.56 _0.10 5.03 _0.83 1.18 0.76 0.34 1.18
 
 NB. rhs
-b=: 4 2 $ 8.70 8.30 _13.35 2.13 1.89 1.61 _4.14 5.00 
+b=: 4 2 $ 8.70 8.30 _13.35 2.13 1.89 1.61 _4.14 5.00
 
 x=: do_dpptrf 'L';ap;b
 echo a ; b ; x ; a (+/ .*) x
