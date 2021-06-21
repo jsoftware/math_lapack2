@@ -93,7 +93,7 @@ NB. 0 1 0 0
 NB. 0 0 1 0
 NB. 0 0 0 1
 
-idmat=: (0 $: ]) :(= ({. -~/&i. {:)@])
+idmat=: (0 $: ]) :(= ({. -~/&i. {:))
 
 NB. =========================================================
 NB. ltmat   lower triangular (trapezoidal) boolean matrix
@@ -111,7 +111,7 @@ NB. 1 1 0 0 0
 NB. 1 1 1 0 0
 NB. 1 1 1 1 0
 
-ltmat=: (0 $: ]) :(>: ({. -~/&i. {:)@])
+ltmat=: (0 $: ]) :(>: ({. -~/&i. {:))
 
 NB. =========================================================
 NB. utmat   upper triangular (trapezoidal) boolean matrix
@@ -129,7 +129,45 @@ NB. 0 1 1 1 1
 NB. 0 0 1 1 1
 NB. 0 0 0 1 1
 
-utmat=: (0 $: ]) :(<: ({. -~/&i. {:)@])
+utmat=: (0 $: ]) :(<: ({. -~/&i. {:))
+
+NB. =========================================================
+NB. lhmat   lower Hessenberg boolean matrix
+NB. H=. (ilo , ihi) lhmat size
+NB. e.g.
+NB.    2 4 lhmat 5
+NB. 1 0 0 0 0
+NB. 1 1 1 0 0
+NB. 1 1 1 1 0
+NB. 1 1 1 1 0
+NB. 1 1 1 1 1
+NB.    2 4 lhmat 5 5
+NB. 1 0 0 0 0
+NB. 1 1 1 0 0
+NB. 1 1 1 1 0
+NB. 1 1 1 1 0
+NB. 1 1 1 1 1
+
+lhmat=: 4 : '({. (>: +. (_1 = -) *. (ilo <: ]) *. (ihi >: >:@]))"0/&i. {:) y [ ''ilo ihi''=. x'
+
+NB. =========================================================
+NB. uhmat   upper Hessenberg boolean matrix
+NB. H=. (ilo , ihi) uhmat size
+NB. e.g.
+NB.    2 4 uhmat 5
+NB. 1 1 1 1 1
+NB. 0 1 1 1 1
+NB. 0 1 1 1 1
+NB. 0 0 1 1 1
+NB. 0 0 0 0 1
+NB.    2 4 uhmat 5 5
+NB. 1 1 1 1 1
+NB. 0 1 1 1 1
+NB. 0 1 1 1 1
+NB. 0 0 1 1 1
+NB. 0 0 0 0 1
+
+uhmat=: 4 : '({. (<: +. ( 1 = -) *. (ilo <: [) *. (ihi >: >:@[))"0/&i. {:) y [ ''ilo ihi''=. x'
 
 NB. =========================================================
 NB. ltri   return only lower triangular (trapezoidal) matrix
@@ -143,7 +181,7 @@ NB. 2 2 0 0 0
 NB. 2 2 2 0 0
 NB. 2 2 2 2 0
 
-ltri=: (0 $: ]) : (] * (>: ({. -~/&i. {:)@$@]))
+ltri=: (0 $: ]) : (] * (>: ({. -~/&i. {:)@$))
 
 NB. =========================================================
 NB. utri   return only upper triangular (trapezoidal) matrix
@@ -157,7 +195,7 @@ NB. 0 2 2 2 2
 NB. 0 0 2 2 2
 NB. 0 0 0 2 2
 
-utri=: (0 $: ]) : (] * (<: ({. -~/&i. {:)@$@]))
+utri=: (0 $: ]) : (] * (<: ({. -~/&i. {:)@$))
 
 NB. =========================================================
 NB. sltri   return only strictly lower triangular (trapezoidal) matrix
@@ -171,7 +209,7 @@ NB. 2 0 0 0 0
 NB. 2 2 0 0 0
 NB. 2 2 2 0 0
 
-sltri=: (0 $: ]) : (] * (> ({. -~/&i. {:)@$@]))
+sltri=: (0 $: ]) : (] * (> ({. -~/&i. {:)@$))
 
 NB. =========================================================
 NB. sutri   return only strictly upper triangular (trapezoidal) matrix
@@ -185,7 +223,7 @@ NB. 0 0 2 2 2
 NB. 0 0 0 2 2
 NB. 0 0 0 0 2
 
-sutri=: (0 $: ]) : (] * (< ({. -~/&i. {:)@$@]))
+sutri=: (0 $: ]) : (] * (< ({. -~/&i. {:)@$))
 
 NB. =========================================================
 NB. cxpair - reconstruct complex columns
