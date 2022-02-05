@@ -138,7 +138,7 @@ NB. call again with lwork
 assert. 0= LASTINFO=: _1{::cdrc=. dgeev_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
 
 'wr wi vl vr'=. 6 7 8 10{cdrc
-(wr j. wi);vl;vr
+(wr j. wi);(|:vl);(|:vr)
 )
 
 a=: ".;._2[0 : 0
