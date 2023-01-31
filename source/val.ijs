@@ -12,7 +12,7 @@ NB. a matrix or vector:
 NB.    vmatrixorvector
 
 isreal=: -: +
-iscomplex=: -. @ (-: +)
+iscomplex=: -.@isreal
 isvector=: 1: = #@$
 ismatrix=: 2: = #@$
 ismatrixorvector=: 1 2 e.~ #@$
