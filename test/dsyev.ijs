@@ -76,7 +76,6 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdsyev=: 4 : 0
-if. (3=x) *. 807>:0".}.({.~ i.&'/')9!:14'' do. 1 return. end.
 a=. dzero + y
 'm n'=. $a
 assert. 0= _1{::cdrc=. dsyev`0:`ssyev`0:@.x (,'V');(,'U');(,n);(|:a);(,1>.m);(V=. n$dzero);(lwork$dzero);(,lwork=. 1>._1+3*n);,_1

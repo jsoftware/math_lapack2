@@ -79,7 +79,6 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tzheev=: 4 : 0
-if. (3=x) *. 807>:0".}.({.~ i.&'/')9!:14'' do. 1 return. end.
 a=. zzero + y
 'm n'=. $a
 assert. 0= _1{::cdrc=. 0:`zheev`0:`cheev@.x (,'V');(,'U');(,n);(|:a);(,1>.m);(V=. n$dzero);(lwork$zzero);(,lwork=. 1>._1+2*n);(dzero$~1>._2+3*n);,_1

@@ -105,7 +105,6 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgelss=: 4 : 0
-if. (3=x) *. 807>:0".}.({.~ i.&'/')9!:14'' do. 1 return. end.
 zero=. (2|x){::dzero;zzero
 
 'ma mvb'=. y

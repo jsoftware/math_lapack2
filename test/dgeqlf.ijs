@@ -66,7 +66,6 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgeqlf=: 4 : 0
-if. (3=x) *. 807>:0".}.({.~ i.&'/')9!:14'' do. 1 return. end.
 zero=. (2|x){::dzero;zzero
 
 a=. zero + y
