@@ -32,7 +32,7 @@ z2d=: [ ^: (-. @ -:) (9 & o.)
 
 mp=: +/ . *
 
-NB. from general/numeric
+NB. from general/misc/numeric
 NB. =========================================================
 NB.*clean v clean y to tolerance of x (default 1e_10)
 NB. form: tolerance (default 1e_10) clean numbers
