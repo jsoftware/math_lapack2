@@ -124,19 +124,19 @@ a=. y
 mn=. m<.n
 
 NB. lapack expect column major order |:a
-assert. 0= LASTINFO=: _1{::cdrc=. dgetrf_jlapack2_ m;n;(|:a);(1>.m);(mn$_1);,_1
+assert. 0= _1{::cdrc=. dgetrf_jlapack2_ m;n;(|:a);(1>.m);(mn$_1);,_1
 
 val=. 3{::cdrc         NB. val is in column major order
 ipiv=. 5{::cdrc        NB. pivot indices
 
 NB. call with lwork = _1 to query optimal workspace size
 NB. val already in column major order, no need to transpose
-assert. 0= LASTINFO=: _1{::cdrc=. dgetri_jlapack2_ n;val;(1>.n);ipiv;(1$0.0);(,_1);,_1
+assert. 0= _1{::cdrc=. dgetri_jlapack2_ n;val;(1>.n);ipiv;(1$0.0);(,_1);,_1
 
 lwork=. <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= LASTINFO=: _1{::cdrc=. dgetri_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
+assert. 0= _1{::cdrc=. dgetri_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
 
 |: 2{::cdrc
 )

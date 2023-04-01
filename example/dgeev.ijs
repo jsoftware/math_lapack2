@@ -130,12 +130,12 @@ assert. m=n
 
 NB. call with lwork = _1 to query optimal workspace size
 NB. lapack expect column major order |:a
-assert. 0= LASTINFO=: _1{::cdrc=. dgeev_jlapack2_ (,'V');(,'V');n;(|:a);(1>.n);(n$0.0);(n$0.0);(0.0$~ldvl,n);(ldvl=. 1>.n);(0.0$~ldvr,n);(ldvr=. 1>.n);(,0.0);(,_1);,_1
+assert. 0= _1{::cdrc=. dgeev_jlapack2_ (,'V');(,'V');n;(|:a);(1>.n);(n$0.0);(n$0.0);(0.0$~ldvl,n);(ldvl=. 1>.n);(0.0$~ldvr,n);(ldvr=. 1>.n);(,0.0);(,_1);,_1
 
 lwork=. <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= LASTINFO=: _1{::cdrc=. dgeev_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
+assert. 0= _1{::cdrc=. dgeev_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
 
 'wr wi vl vr'=. 6 7 8 10{cdrc
 (wr j. wi);(|:vl);(|:vr)

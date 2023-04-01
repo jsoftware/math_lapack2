@@ -119,11 +119,11 @@ assert. 2=#$b
 assert. n={.$b
 nrhs=. ,{:$b
 
-assert. 0= LASTINFO=: _1{::cdrc=. dpptrf_jlapack2_ (,uplo);n;a;,_1
+assert. 0= _1{::cdrc=. dpptrf_jlapack2_ (,uplo);n;a;,_1
 
 ap=. 3{::cdrc         NB. packed U or L
 
-assert. 0= LASTINFO=: _1{::cdrc=. dpptrs_jlapack2_ (,uplo);n;nrhs;ap;(|:b);(1>.n);,_1
+assert. 0= _1{::cdrc=. dpptrs_jlapack2_ (,uplo);n;nrhs;ap;(|:b);(1>.n);,_1
 
 |: 5{::cdrc
 )
