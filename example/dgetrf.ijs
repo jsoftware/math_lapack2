@@ -133,7 +133,7 @@ NB. call with lwork = _1 to query optimal workspace size
 NB. val already in column major order, no need to transpose
 assert. 0= _1{::cdrc=. dgetri n;val;(1>.n);ipiv;(1$0.0);(,_1);,_1
 
-lwork=. <. _3{::cdrc
+lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
 assert. 0= _1{::cdrc=. dgetri (_3}.}.cdrc),(lwork$0.0);lwork;,_1

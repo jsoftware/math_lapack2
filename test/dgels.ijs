@@ -127,7 +127,7 @@ ma=. zero + ma
 mvb=. zero + ,.^:(2>#@$)mvb
 nrhs=. {:@$mvb
 lwork=. 1 >. (m<.n) + ((m<.n) >. nrhs)*4
-assert. 0= _1{::cdrc=. dgels`zgels`sgels`cgels@.x (,'N');(,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.m>.n);(lwork$zero);(,lwork);,_1
+assert. 0= _1{::cdrc=. dgels`zgels`sgels`cgels@.x (,'N');(,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:(m>.n){.mvb);(,ldb=. 1>.m>.n);(lwork$zero);(,lwork);,_1
 R=. n{. |: 7{::cdrc
 echo R
 echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R

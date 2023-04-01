@@ -159,9 +159,8 @@ if. 0=2|x do.
 else.
   assert. 0= _1{::cdrc=. 0:`zgesvd`0:`cgesvd@.x (,'A');(,'A');(,m);(,n);(|:a);(,1>.m);S;U;(,1>.m);VT;(,1>.n);(lwork$zero);(,lwork);rwork;,_1
 end.
-'S U VT'=. 7 8 10{cdrc
-U=. |:U
-VT=. +VT
+'s u vt'=. (|:L:0) 7 8 10{cdrc
+vt=. +vt
 S=. (m-n) diagmat S
 echo U;S;VT
 echo r=. a match`matchf@.(x>1) clean`cleanf@.(x>1) U mp S mp +|:VT

@@ -42,7 +42,7 @@ if. L. y do.
   x clean each y
 else.
   if. (3!:0 y) e. 16 16384 do.
-    j./"1 y * (2*x) <: | y=. +.y
+    j./"1 y * x <: | y=. +.y
   else.
     y * x <: |y
   end.

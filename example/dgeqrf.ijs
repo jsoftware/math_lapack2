@@ -155,7 +155,7 @@ NB. call with lwork = _1 to query optimal workspace size
 NB. lapack expect column major order |:a
 assert. 0= _1{::cdrc=. dgeqrf m;n;(|:a);(1>.m);(mn$0.0);(,0.0);(,_1);,_1
 
-lwork=. <. _3{::cdrc
+lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
 assert. 0= _1{::cdrc=. dgeqrf (_3}.}.cdrc),(lwork$0.0);lwork;,_1
@@ -169,7 +169,7 @@ NB. call with lwork = _1 to query optimal workspace size
 NB. val already in column major order, no need to transpose
 assert. 0= _1{::cdrc=. dorgqr m;n;n;val;(1>.m);tau;(,0.0);(,_1);,_1
 
-lwork=. <. _3{::cdrc
+lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
 assert. 0= _1{::cdrc=. dorgqr (_3}.}.cdrc),(lwork$0.0);lwork;,_1

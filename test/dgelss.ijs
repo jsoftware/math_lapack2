@@ -116,11 +116,11 @@ mn=. m<.n
 
 if. 0=2|x do.
   lwork=. 1 >. ((3*mn)+((2*mn)>.(m>.n)>.nrhs))
-  assert. 0= _1{::cdrc=. dgelss`0:`sgelss`0:@.x (,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.m>.n);(s=. mn$dzero);(,rcond=. 1e_10);(,rank=. 0);(lwork$zero);(,lwork);,_1
+  assert. 0= _1{::cdrc=. dgelss`0:`sgelss`0:@.x (,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:(m>.n){.mvb);(,ldb=. 1>.m>.n);(s=. mn$dzero);(,rcond=. 1e_10);(,rank=. 0);(lwork$zero);(,lwork);,_1
 else.
   lwork=. 1 >. ((2*mn)+(m>.n>.nrhs))
   rwork=. (5*mn)$dzero
-  assert. 0= _1{::cdrc=. 0:`zgelss`0:`cgelss@.x (,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.m>.n);(s=. mn$dzero);(,rcond=. 1e_10);(,rank=. 0);(lwork$zero);(,lwork);rwork;,_1
+  assert. 0= _1{::cdrc=. 0:`zgelss`0:`cgelss@.x (,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:(m>.n){.mvb);(,ldb=. 1>.m>.n);(s=. mn$dzero);(,rcond=. 1e_10);(,rank=. 0);(lwork$zero);(,lwork);rwork;,_1
 end.
 'A B S'=. 4 6 8{cdrc
 B=. n {. |: B

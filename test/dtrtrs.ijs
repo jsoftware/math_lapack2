@@ -85,8 +85,8 @@ ma=. zero + ma
 'm n'=. $ma
 mvb=. zero + ,.^:(2>#@$)mvb
 nrhs=. {:@$mvb
-assert. 0= _1{::cdrc=. dtrtrs`ztrtrs`strtrs`ctrtrs@.x (,'U');(,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.n);,_1
-R=. n{. |: 8{::cdrc
+assert. 0= _1{::cdrc=. dtrtrs`ztrtrs`strtrs`ctrtrs@.x (,'U');(,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(|:mvb);(,ldb=. 1>.n);,_1
+R=. |: 8{::cdrc
 echo R
 echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
 0{::r
