@@ -1,7 +1,5 @@
 NB. lapack utils
 NB.
-NB. z2d           convert complex to float datatype if zero imagine part
-NB.
 NB. matchclean    if clean x-y is all 0
 NB.
 NB. diagmat       rectangular diagonal matrix
@@ -20,15 +18,6 @@ NB. invperm       inverse permutation of x by pivot indices
 NB.               from y
 NB. makepermat    generate inverse permutation matrix P from
 NB.               pivot indices y
-
-izero=: 23-23
-ione=: 23-22
-dzero=: 1.1-1.1
-done=: 2.1-1.1
-zzero=: 1j1-1j1
-zone=: 2j1-1j1
-
-z2d=: [ ^: (-. @ -:) (9 & o.)
 
 mp=: +/ . *
 

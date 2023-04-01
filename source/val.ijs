@@ -11,14 +11,23 @@ NB. validation routines that check argument is either
 NB. a matrix or vector:
 NB.    vmatrixorvector
 
-isreal=: -: +
-iscomplex=: -.@isreal
-isvector=: 1: = #@$
-ismatrix=: 2: = #@$
+isscalar=: 0 = #@$
+isvector=: 1 = #@$
+ismatrix=: 2 = #@$
 ismatrixorvector=: 1 2 e.~ #@$
 issquare=: =/ @ $
 issymmetric=: -:   |:
 ishermitian=: -: +@|:
+
+NB. =========================================================
+NB.*ishessenberg   dyadic adv. to check for lower/upper Hessenberg matrix
+NB. syntax:
+NB.   isH=. (ilo , ihi) (mkHmat ishessenberg) H
+NB. where mkHmat is either lhmat or uhmat
+NB. e.g.
+NB.   isH=. 2 4 uhmat_jlapack2_ ishessenberg_jlapack2_ H
+
+ishessenberg=: 1 : (':' ; '(-: (x u $)`(0&,:)}) y')
 
 NB. =========================================================
 isorthogonal=: 3 : 0
