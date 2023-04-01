@@ -95,4 +95,3 @@ assert. 0&tdsyev &> m0;m1;m2
 assert. 2&tdsyev &> m0;m1;m2
 EMPTY
 )
-

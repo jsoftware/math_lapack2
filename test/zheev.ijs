@@ -96,4 +96,3 @@ assert 1&tzheev m3
 assert 3&tzheev m3
 EMPTY
 )
-

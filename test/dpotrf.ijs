@@ -83,4 +83,3 @@ assert. 2&tdpotrf &> m0;m1;m2;m3
 assert. 3&tdpotrf &> m4;m5
 EMPTY
 )
-

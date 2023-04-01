@@ -68,7 +68,6 @@ a=. zero + y
 'm n'=. $a
 mn=. m<.n
 assert. 0= _1{::cdrc=. dgetrf`zgetrf`sgetrf`cgetrf@.x (,m);(,n);(|:a);(,1>.m);(mn$izero);,_1
-
 'r ipiv'=. 3 5{cdrc
 r=. |:r
 u=. l=. izero
@@ -102,4 +101,3 @@ assert. 2&tdgetrf &> m0;m1;m2;m3
 assert. 3&tdgetrf &> m4;m5;m6;m7
 EMPTY
 )
-
