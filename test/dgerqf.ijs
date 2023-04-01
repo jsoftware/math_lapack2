@@ -72,7 +72,6 @@ a=. zero + y
 mn=. m<.n
 d=. n-m
 assert. 0= _1{::cdrc=. dgerqf`zgerqf`sgerqf`cgerqf@.x (,m);(,n);(|:a);(,1>.m);(tau=. mn$zero);(lwork$zero);(,lwork=. 1 >. 10 * m >. n);,_1
-r=. h=. q=. 0
 val=. |: 3{::cdrc
 tau=. 5{::cdrc
 r=. (m,(-mn)) {. d utri val

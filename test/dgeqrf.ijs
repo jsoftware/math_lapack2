@@ -83,7 +83,6 @@ a=. zero + y
 'm n'=. $a
 mn=. m<.n
 assert. 0= _1{::cdrc=. dgeqrf`zgeqrf`sgeqrf`cgeqrf@.x (,m);(,n);(|:a);(,1>.m);(tau=. (1>.mn)$zero);(lwork$zero);(,lwork=. 1 >. 10 * m >. n);,_1
-q=. h=. r=. 0
 val=. |: 3{::cdrc
 tau=. 5{::cdrc
 h=. (m,mn) {. (idmat m,n) + sltri val

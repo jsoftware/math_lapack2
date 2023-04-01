@@ -79,7 +79,6 @@ lwork=. 1 >. 10 * m >. n
 assert. 0= _1{::cdrc=. dgeqlf`zgeqlf`sgeqlf`cgeqlf@.x (,m);(,n);(|:a);(,1>.m);(tau=. mn$zero);(lwork$zero);(,lwork);,_1
 'val tau'=. 3 5{cdrc
 val=. |: val
-Q=. H=. L=. 0
 H=. (m,(-mn)) {. (d idmat m,n) + (d sutri val)
 L=. ((-mn),n) {. d ltri val
 Q=. (m,(-mn)) {. mp/ (idmat m) -"2 |. tau * (* +)"0/~"1 |: H

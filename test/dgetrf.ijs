@@ -70,7 +70,6 @@ mn=. m<.n
 assert. 0= _1{::cdrc=. dgetrf`zgetrf`sgetrf`cgetrf@.x (,m);(,n);(|:a);(,1>.m);(mn$izero);,_1
 'r ipiv'=. 3 5{cdrc
 r=. |:r
-u=. l=. izero
 l=. (idmat m,n) + sltri r
 if. m < n do.
   l=. (_,mn) {. l
