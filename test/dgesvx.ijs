@@ -275,16 +275,16 @@ u=. utri af
 echo r1=. ma match`matchf@.(x>1) clean`cleanf@.(x>1) (makeper ipiv) C. l1 mp u
 echo r2=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp xx
 NB. echo 'WORK(1) == ||A||/||U|| = ' , 0j17 ": abyu
-na=. 0:`(>./)@.(*@#) , | ma  NB. xLANGE('M',N,N,A,...)
-nu=. 0:`(>./)@.(*@#) , | u   NB. xLANTR('M','U','N',N,N,AFAC,...)
-rpvgrw=. na 1:`%@.(*@]) nu
+NB. na=. 0:`(>./)@.(*@#) , | ma  NB. xLANGE('M',N,N,A,...)
+NB. nu=. 0:`(>./)@.(*@#) , | u   NB. xLANTR('M','U','N',N,N,AFAC,...)
+NB. rpvgrw=. na 1:`%@.(*@]) nu
 NB. echo 'RPVGRW = ' , 0j17 ": rpvgrw
-eps=. 2 ^ IF64 { _24 _53
-r7=. rpvgrw (|@- % eps * >.) abyu
-thresh=. 30.0
+NB. eps=. 2 ^ IF64 { _24 _53
+NB. r7=. rpvgrw (|@- % eps * >.) abyu
+NB. thresh=. 30.0
 NB. echo 'RESULT(7) == ' , ": r7
-(r7 < thresh) , r1 ,&(0&{::) r2
-NB. r1 ,&(0&{::) r2
+NB. (r7 < thresh) , r1 ,&(0&{::) r2
+r1 ,&(0&{::) r2
 )
 
 NB. =========================================================
