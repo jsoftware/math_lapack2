@@ -71,45 +71,37 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgehrd=: 4 : 0
-zero=. (2|x){::dzero;zzero
 'a ilo ihi'=. y
-
-a0=. a:{ a=. zero + a
-'m n'=. $a
-
-if. (1 > ilo) +. ((ilo > ihi) *. ((0 ~: n) +. (1 ~: ilo) +. (0 ~: ihi))) +. (ihi > n) do.
-  sminfo 'following should hold: 1 <: ILO <: IHI <: N'
-  0 return.
-end.
-
-assert. 0= _1{::cdrc=. dgehrd`zgehrd`sgehrd`cgehrd@.x (,m);(,ilo);(,ihi);(|:a);(,1>.m);(,tau=. (0 >. n-1)$zero);(lwork$zero);(,lwork=. 1>.n);,_1
-
-'ilo ihi a tau'=. 2 3 4 6{cdrc
-a=. |: a
-ilo=. {. ilo
-iho=. {. iho
-h=. _1 utri a
-
+n=. #a
+assert. (ismatrix , issquare) a
+assert. isscalar ilo
+assert. isscalar ihi
+assert. (-: /:~) 1 , ilo , >: ihi , n  NB. 1 <= ilo <= ihi+1 <= n+1
+zero=. (2|x){::0.0;0j0
+ldw=. , 1 >. n
+assert. 0= _1{::cdrc=. dgehrd`zgehrd`sgehrd`cgehrd@.x (,n);(,ilo);(,ihi);(|:a);ldw;((0 >. n-1)$zero);(ldw$zero);ldw;,_1
+'hq tau'=. 4 6{cdrc
+hq=. |: hq
+h=. _1 utri hq
 ldiff=. 0 >. ihi-ilo  NB. '>.' to fix case 0=n
 qsize=. n , ldiff
-nilo=. - {. ilo
-qvec=. (nilo idmat qsize) + (((0 , <: ilo) ,: qsize) (nilo & sltri) ;. 0 a)
-q=. mp/ (idmat n) -"2 (((0 >. <: ilo) ,: ldiff) ] ;. 0 tau) * (* +)"0/~"1 |:qvec
-
+nilo=. - ilo
+qvec=. (nilo idmat qsize) + ((0 , <: ilo) ,: qsize) (nilo & sltri);.0 hq
+q=. mp/ (idmat n) -"2 (((0 >. <: ilo) ,: ldiff) ];.0 tau) * (* +)"0/~"1 |:qvec
 echo h;q
-echo r=. h match`matchf@.(x>1) clean`cleanf@.(x>1) (+|:q) mp a0 mp q
+echo r=. h match`matchf@.(x>1) clean`cleanf@.(x>1) a ((mp~ +@|:) mp ]) q
 0{::r
 )
 
 NB. =========================================================
 testdgehrd=: 3 : 0
-ios=. 1 0;2 0;3 0;4 0;5 0;6 0;7 0;8 0;9 0;9 1;9 2;9 3;9 4;9 5;9 6;9 7;9 8
-ma0=. 0 0$0
+ios=. 1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9 0,9 1,9 2,9 3,9 4,9 5,9 6,9 7,:9 8
+ma0=. 0 0$0.0
 ma1=. ? 10 10$100
-ma2=. 0 ios } ma1
-ma3=. 0 0$zzero
+ma2=. 0 ios} ma1
+ma3=. 0 0$0j0
 ma4=. j./ ? 2 10 10$100
-ma5=. 0 ios } ma4
+ma5=. 0 ios} ma4
 assert. 0&tdgehrd &> (< ma0;1;(#ma0)) , (< ma1;1;(#ma1)) , (< ma2;2;9)
 assert. 1&tdgehrd &> (< ma3;1;(#ma3)) , (< ma4;1;(#ma4)) , (< ma5;2;9)
 assert. 2&tdgehrd &> (< ma0;1;(#ma0)) , (< ma1;1;(#ma1)) , (< ma2;2;9)

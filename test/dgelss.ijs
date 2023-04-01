@@ -105,53 +105,49 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgelss=: 4 : 0
-zero=. (2|x){::dzero;zzero
-
 'ma mvb'=. y
-ma=. zero + ma
 'm n'=. $ma
-mvb=. zero + ,.^:(2>#@$)mvb
-nrhs=. {:@$mvb
-mn=. m<.n
-
-if. 0=2|x do.
-  lwork=. 1 >. ((3*mn)+((2*mn)>.(m>.n)>.nrhs))
-  assert. 0= _1{::cdrc=. dgelss`0:`sgelss`0:@.x (,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:(m>.n){.mvb);(,ldb=. 1>.m>.n);(s=. mn$dzero);(,rcond=. 1e_10);(,rank=. 0);(lwork$zero);(,lwork);,_1
+assert. ismatrix ma
+assert. (ismatrixorvector , m=#) mvb
+zero=. (2|x){::0.0;0j0
+nrhs=. , *@{.`{:@.(1 < #) $ mvb
+'mn mx' =. m (<. , >.) n
+if. 2|x do.
+  lwork=. , 1 >. (+: mn) + nrhs >. mx
+  rwork=. (5*mn)$0.0
+  assert. 0= _1{::cdrc=. [:`zgelss`[:`cgelss@.x (,m);(,n);nrhs;(|:ma);(,1>.m);(|:mx{.mvb);(,1>.mx);(mn$0.0);(,1e_10);(,00);(lwork$zero);lwork;rwork;,_1
 else.
-  lwork=. 1 >. ((2*mn)+(m>.n>.nrhs))
-  rwork=. (5*mn)$dzero
-  assert. 0= _1{::cdrc=. 0:`zgelss`0:`cgelss@.x (,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:(m>.n){.mvb);(,ldb=. 1>.m>.n);(s=. mn$dzero);(,rcond=. 1e_10);(,rank=. 0);(lwork$zero);(,lwork);rwork;,_1
+  lwork=. , 1 >. (3*mn) + >./ nrhs , mx , +: mn
+  assert. 0= _1{::cdrc=. dgelss`[:`sgelss`[:@.x (,m);(,n);nrhs;(|:ma);(,1>.m);(|:mx{.mvb);(,1>.mx);(mn$0.0);(,1e_10);(,00);(lwork$zero);lwork;,_1
 end.
-'A B S'=. 4 6 8{cdrc
-B=. n {. |: B
-A=. mn ({."1) |:A
-
-echo r=. mvb match`matchf@.(x>1) ma mp B
+xx=. 6{::cdrc
+xx=. n {. |: xx
+echo r=. mvb match`matchf@.(x>1) ma mp xx
 0{::r
 )
 
 NB. =========================================================
 testdgelss=: 3 : 0
-dma0=. 0 0$0
-dmb0=. 0 0$0
+dma0=. 0 0$0.0
+dmb0=. 0 0$0.0
 dma1=. ? 10 5$100          NB. match fails for this pair since solution is least squares
 dmb1=. ? 10 3$50
 dma2=. ? 5 10$100
 dmb2=. ? 5 3$50
-dma3=. 0 0$0
-dvb3=. 0$0
+dma3=. 0 0$0.0
+dvb3=. 0$0.0
 dma4=. ? 10 5$100          NB. match fails for this pair since solution is least squares
 dvb4=. ? 10$50
 dma5=. ? 5 10$100
 dvb5=. ? 5$50
-zma0=. 0 0$zzero
-zmb0=. 0 0$zzero
+zma0=. 0 0$0j0
+zmb0=. 0 0$0j0
 zma1=. j./ ? 2 10 5$100    NB. match fails for this pair since solution is least squares
 zmb1=. j./ ? 2 10 3$50
 zma2=. j./ ? 2 5 10$100
 zmb2=. j./ ? 2 5 3$50
-zma3=. 0 0$zzero
-zvb3=. 0$zzero
+zma3=. 0 0$0j0
+zvb3=. 0$0j0
 zma4=. j./ ? 2 10 5$100    NB. match fails for this pair since solution is least squares
 zvb4=. j./ ? 2 10$50
 zma5=. j./ ? 2 5 10$100

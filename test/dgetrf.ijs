@@ -63,34 +63,33 @@ NB. =========================================================
 NB. DGETRF ZGETRF computes an LU factorization of a general M-by-N matrix A using partial pivoting with row interchanges.
 
 tdgetrf=: 4 : 0
-zero=. (2|x){::dzero;zzero
-a=. zero + y
-'m n'=. $a
-mn=. m<.n
-assert. 0= _1{::cdrc=. dgetrf`zgetrf`sgetrf`cgetrf@.x (,m);(,n);(|:a);(,1>.m);(mn$izero);,_1
-'r ipiv'=. 3 5{cdrc
-r=. |:r
-l=. (idmat m,n) + sltri r
+assert. ismatrix y
+'m n'=. $y
+mn=. m <. n
+assert. 0= _1{::cdrc=. dgetrf`zgetrf`sgetrf`cgetrf@.x (,m);(,n);(|:y);(,1>.m);(mn$00);,_1
+'l1u ipiv'=. 3 5{cdrc
+l1u=. |: l1u
+l1=. (idmat m,n) + sltri l1u
 if. m < n do.
-  l=. (_,mn) {. l
+  l1=. mn {."1 l1
 end.
-u=. utri r
+u=. utri l1u
 if. m > n do.
-  u=. (mn,_) {. u
+  u=. mn {. u
 end.
 
-echo l;u;ipiv
-echo r=. a match`matchf@.(x>1) ipiv invperm~ l mp u
+echo l1;u;ipiv
+echo r=. y match`matchf@.(x>1) ipiv invperm~ l1 mp u
 0{::r
 )
 
 NB. =========================================================
 testdgetrf=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. ?.4 6$10
 m2=. ?.6 4$10
 m3=. ?.6 6$10
-m4=. 0 0$zzero
+m4=. 0 0$0j0
 m5=. j./ ?. 2 4 6$10
 m6=. j./ ?.2 6 4$10
 m7=. j./ ?.2 6 6$10

@@ -120,40 +120,38 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgeev=: 4 : 0
-zero=. (2|x){::dzero;zzero
-a=. zero + y
-'m n'=. $a
-
-if. 0=2|x do.
-  assert. 0= _1{::cdrc=. dgeev`0:`sgeev`0:@.x (,'V');(,'V');(,n);(|:a);(,1>.m);(wr=. n$zero);(wi=. n$zero);(vl=. (n,n)$zero);(,1>.n);(vr=. (n,n)$zero);(,1>.n);(lwork$zero);(,lwork=. 1>.4*n);,_1
-  'wr wi vl vr'=. 6 7 8 10{cdrc
-  w=. wr j. wi
+assert. (ismatrix , issquare) y
+zero=. (2|x){::0.0;0j0
+n=. #y
+ld=. , 1 >. n
+lwork=. , 1 >. 4*n
+if. 2|x do.
+  assert. 0= _1{::cdrc=. [:`zgeev`[:`cgeev@.x (,'V');(,'V');(,n);(|:y);ld;(n$zero);(zero$~,~n);ld;(zero$~,~n);ld;(lwork$zero);lwork;((+:n)$0.0);,_1
+  'w vl vr'=. (|:L:0) 6 7 9{cdrc
 else.
-  assert. 0= _1{::cdrc=. 0:`zgeev`0:`cgeev@.x (,'V');(,'V');(,n);(|:a);(,1>.m);(w=. n$zero);(vl=. (n,n)$zero);(,1>.n);(vr=. (n,n)$zero);(,1>.n);(lwork$zero);(,lwork=. 1>.4*n);((+:n)$dzero);,_1
-  'w vl vr'=. 6 7 9{cdrc
+  assert. 0= _1{::cdrc=. dgeev`[:`sgeev`[:@.x (,'V');(,'V');(,n);(|:y);ld;(n$zero);(n$zero);(zero$~,~n);ld;(zero$~,~n);ld;(lwork$zero);lwork;,_1
+  'wr wi vl vr'=. (|:L:0) 6 7 8 10{cdrc
+  w=. wr j. wi
 end.
-V=. w
-L=. n{. |:vl
-R=. n{. |:vr
 
 if. 0=2|x do.
   if. #cx=. I. wi ~: 0 do.
-    L=. cx cxpair L
-    R=. cx cxpair R
+    vl=. cx cxpair vl
+    vr=. cx cxpair vr
   end.
 end.
 
-echo L;V;R
-echo a=. (y mp R) match`matchf@.(x>1) (V *"1 R)
-echo b=. ((+|:L) mp y) match`matchf@.(x>1) (V * +|:L)
-(0 pick a) *. 0 pick b
+echo vl;w;vr
+echo b=. ((+|:vl) mp y) match`matchf@.(x>1) w * +|:vl
+echo a=. (y mp vr) match`matchf@.(x>1) w *"1 vr
+a ,&(0&{::) b
 )
 
 NB. =========================================================
 testdgeev=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. ?.6 6$10
-m2=. 0 0$zzero
+m2=. 0 0$0j0
 m3=. j./ ?.2 6 6$10
 assert. 0&tdgeev &> m0;m1
 assert. 1&tdgeev &> m1;m2;m3

@@ -146,36 +146,39 @@ NB. _4  24 _41
 
 NB. return q r
 do_dgeqrf=: 3 : 0
-assert. 2=#$y
-a=. y
-'m n'=. ,"0 $a
-mn=. m<.n
+assert. ismatrix y
+'m n'=. $y
+mn=. m <. n
 
 NB. call with lwork = _1 to query optimal workspace size
-NB. lapack expect column major order |:a
-assert. 0= _1{::cdrc=. dgeqrf m;n;(|:a);(1>.m);(mn$0.0);(,0.0);(,_1);,_1
+NB. lapack expect column major order |:y
+assert. 0= _1{::cdrc=. dgeqrf (,m);(,n);(|:y);(,1>.m);(mn$0.0);(,0.0);(,_1);,_1
 
 lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= _1{::cdrc=. dgeqrf (_3}.}.cdrc),(lwork$0.0);lwork;,_1
-
-val=. 3{::cdrc         NB. val is in column major order
-tau=. 5{::cdrc
-r=. mn {. utri |:val   NB. upper triangular of row major
+assert. 0= _1{::cdrc=. dgeqrf ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
+'val tau'=. 3 5{cdrc  NB. val is in column major order
+r=. mn {. utri |:val  NB. upper triangular of row major
 
 NB. create orthogonal matrix q from temp val
 NB. call with lwork = _1 to query optimal workspace size
 NB. val already in column major order, no need to transpose
-assert. 0= _1{::cdrc=. dorgqr m;n;n;val;(1>.m);tau;(,0.0);(,_1);,_1
+assert. 0= _1{::cdrc=. dorgqr (,m);(,n);(,n);val;(,1>.m);tau;(,0.0);(,_1);,_1
 
 lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= _1{::cdrc=. dorgqr (_3}.}.cdrc),(lwork$0.0);lwork;,_1
+assert. 0= _1{::cdrc=. dorgqr ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
 
 (|:4{::cdrc);r
 )
 
-'q r'=: do_dgeqrf a=: 3 3 $12.0 _51 4 6 167 _68 _4 24 _41
-echo a ; q ; r ; (q (+/ .*) r)
+a=: ".;._2[0 : 0
+12 _51   4
+ 6 167 _68
+_4  24 _41
+)
+'q r'=: do_dgeqrf a
+echo ('Q';'R') ,: q;r
+echo ('A';'Q * R') ,: a;q mp r

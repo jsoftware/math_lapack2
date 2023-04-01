@@ -60,21 +60,20 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdpotrf=: 4 : 0
-zero=. (2|x){::dzero;zzero
-a=. zero + y
-'m n'=. $a
-assert. 0= _1{::cdrc=. dpotrf`zpotrf`spotrf`cpotrf@.x (,'L');(,n);(|:a);(,1>.m);,_1
-echo L=. ltri |: 3{::cdrc
-echo r=. a match`matchf@.(x>1) L mp +|:L
+assert. (ismatrix , issquare) y
+n=. #y
+assert. 0= _1{::cdrc=. dpotrf`zpotrf`spotrf`cpotrf@.x (,'L');(,n);(|:y);(,1>.n);,_1
+echo l=. ltri |: 3{::cdrc
+echo r=. y match`matchf@.(x>1) (mp +@|:) l
 0{::r
 )
 
 NB. =========================================================
 testdpotrf=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. (mp |:) ?.4 4$10
 m2=. (mp |:) _25 + ?.10 10$100
-m3=. 0 0$zzero
+m3=. 0 0$0j0
 m4=. (mp (+ @ |:)) j./ ?.2 4 4$10
 m5=. (mp (+ @ |:)) _25 + j./ ?.2 10 10$100
 assert. 0&tdpotrf &> m0;m1;m2;m3

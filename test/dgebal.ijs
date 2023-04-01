@@ -74,30 +74,25 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgebal=: 4 : 0
-zero=. (2|x){::dzero;zzero
-
-a=. zero + y
-'m n'=. $a
-
-assert. 0= _1{::cdrc=. dgebal`zgebal`sgebal`cgebal@.x (,'B');(,m);(|:a);(,1>.m);(,0);(,0);(n$dzero);,_1
-'AB ILO IHI SCALE'=. 3 5 6 7{cdrc
-AB=. |:AB
-ILO=. {. ILO
-IHI=. {. IHI
-
-echo AB;ILO;IHI;SCALE
-
-p=. (ILO , IHI) makeper SCALE
-d=. ((>:&ILO *. <:&IHI) #\ i. # y)} 1 ,: SCALE
-echo r=. AB match`matchf@.(x>1) d (*"1 % [) p ([ C."1 C.) y  NB. compare AB with D^_1 * P * A * P^_1 * D
+assert. (ismatrix , issquare) y
+n=. #y
+assert. 0= _1{::cdrc=. dgebal`zgebal`sgebal`cgebal@.x (,'B');(,n);(|:y);(,1>.n);(,00);(,00);(n$0.0);,_1
+'ab ilo ihi scale'=. 3 5 6 7{cdrc
+ab=. |:ab
+ilo=. {. ilo
+ihi=. {. ihi
+echo ab;ilo;ihi;scale
+p=. (ilo , ihi) makeper scale
+d=. ((>:&ilo *. <:&ihi) #\ i. n)} 1 ,: scale
+echo r=. ab match`matchf@.(x>1) d (*"1 % [) p ([ C."1 C.) y  NB. compare AB with D^_1 * P * A * P^_1 * D
 0{::r
 )
 
 NB. =========================================================
 testdgebal=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. 7 7 $ 6 0 0 0 0 1 0 0 4 0 0.00025 0.0125 0.02 0.125 1 128 64 0 0 _2 16 0 16384 0 1 _400 256 _4000 _2 _256 0 0.0125 2 2 32 0 0 0 0 0 0 0 0 8 0 0.004 0.125 _0.2 3
-m2=. 0 0$zzero
+m2=. 0 0$0j0
 m3=. 6 6 $ 1j1 1j1 0 1j1 1j1 1j1 1j1 1j1 0 1j1 1j1 1j1 1j1 1j1 1j1 1j1 1j1 1j1 0 0 0 1j1 0 0 1j1 1j1 0 1j1 1j1 1j1 1j1 1j1 0 1j1 1j1 1j1
 assert. 0&tdgebal &> m0;m1
 assert. 1&tdgebal &> m2;m3

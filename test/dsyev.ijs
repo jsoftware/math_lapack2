@@ -76,21 +76,22 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdsyev=: 4 : 0
-a=. dzero + y
-'m n'=. $a
-assert. 0= _1{::cdrc=. dsyev`0:`ssyev`0:@.x (,'V');(,'U');(,n);(|:a);(,1>.m);(V=. n$dzero);(lwork$dzero);(,lwork=. 1>._1+3*n);,_1
-'R V'=. 4 6{cdrc
-R=. |:R
-echo V;R
-echo r=. (clean`cleanf@.(x>1) a mp R) match`matchf@.(x>1) (clean`cleanf@.(x>1) V *"1 R)
+assert. (ismatrix , issquare , issymmetric) y
+n=. #y
+lwork=. , 1 >. _1 3 p. n
+assert. 0= _1{::cdrc=. dsyev`[:`ssyev`[:@.x (,'V');(,'U');(,n);(|:y);(,1>.n);(n$0.0);(lwork$0.0);lwork;,_1
+'r v'=. 4 6{cdrc
+r=. |:r
+echo v;r
+echo r=. (clean`cleanf@.(x>1) y mp r) match`matchf@.(x>1) clean`cleanf@.(x>1) v *"1 r
 0{::r
 )
 
 NB. =========================================================
 testdsyev=: 3 : 0
-m0=. 0 0$dzero
+m0=. 0 0$0.0
 m1=. (+ |:) ?.6 6$10
-m2=. 0 0$dzero
+m2=. 0 0$0.0
 assert. 0&tdsyev &> m0;m1;m2
 assert. 2&tdsyev &> m0;m1;m2
 EMPTY

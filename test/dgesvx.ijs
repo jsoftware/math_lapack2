@@ -254,50 +254,56 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgesvx=: 4 : 0
-zero=. (2|x){::dzero;zzero
-
 'ma mvb'=. y
-ma=. zero + ma
-'m n'=. $ma
-mvb=. zero + ,.^:(2>#@$)mvb
-nrhs=. {:@$mvb
-
-if. 0=2|x do.
-  assert. 0= _1{::cdrc=. dgesvx`0:`sgesvx`0:@.x (,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(af=. (n,m)$zero);(,1>.n);(ipiv=. n$izero);(, equal=. ' ');(R=. n$dzero);(C=. n$dzero);(|:mvb);(,ldb=. 1>.n);(X=. (nrhs,n)$zero);(,ldx=. 1>.n);(,dzero);(ferr=. nrhs$dzero);(berr=. nrhs$dzero);((1>.4*n)$zero);((1>.n)$izero);,_1
-  'a af ipiv b X abyu'=. 5 7 9 13 15 20{cdrc
-else.
-  assert. 0= _1{::cdrc=. 0:`zgesvx`0:`cgesvx@.x (,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(af=. (n,m)$zero);(,1>.n);(ipiv=. n$izero);(, equal=. ' ');(R=. n$dzero);(C=. n$dzero);(|:mvb);(,ldb=. 1>.n);(X=. (nrhs,n)$zero);(,ldx=. 1>.n);(,dzero);(ferr=. nrhs$dzero);(berr=. nrhs$dzero);((1>.2*n)$zero);((1>.2*n)$dzero);,_1
-  'a af ipiv b X abyu'=. 5 7 9 13 15 21{cdrc
-end.
-a=. |: a
+n=. #ma
+assert. (ismatrix , issquare) ma
+assert. (ismatrixorvector , n=#) mvb
+zero=. (2|x){::0.0;0j0
+nrhs=. , *@{.`{:@.(1 < #) $ mvb
+ld=. , 1 >. n
+wlen=. n (] >. (* {&2 4)) -. 2|x  NB. S,D: (1>.4*n); C,Z: (2*n)
+irwlen=. n (] >. (* >:)) 2|x  NB. S,D: (n); C,Z: (1>.2*n)
+irw=. irwlen $ (2|x) {:: 00 ; 0.0  NB. S,D: (iwork=. irwlen$00); C,Z: (rwork=. irwlen$0.0)
+assert. 0= _1{::cdrc=. dgesvx`zgesvx`sgesvx`cgesvx@.x (,'N');(,'N');(,n);nrhs;(|:ma);ld;(zero$~,~n);ld;(n$00);(,' ');(n$0.0);(n$0.0);(|:mvb);ld;((nrhs,n)$zero);ld;(,0.0);(nrhs$0.0);(nrhs$0.0);(wlen$zero);irw;,_1
+'af ipiv xx abyu'=. (7 9 15 , 20 + 2|x){cdrc
 af=. |: af
-X=. |: X
-abyu=. {. abyu
-u=. l=. 0
-l=. (idmat n,m) + sltri af
+xx=. |: xx
+abyu=. {. abyu  NB. (||A|| / ||U||) shouldn't be o(1)
+l1=. (idmat n) + sltri af
 u=. utri af
 
-echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp X
-0{::r
+echo r1=. ma match`matchf@.(x>1) clean`cleanf@.(x>1) (makeper ipiv) C. l1 mp u
+echo r2=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp xx
+echo 'WORK(1) == ||A||/||U|| = ' , 0j17 ": abyu
+na=. 0:`(>./)@.(*@#) , | ma  NB. xLANGE('M',N,N,A,...)
+nu=. 0:`(>./)@.(*@#) , | u   NB. xLANTR('M','U','N',N,N,AFAC,...)
+rpvgrw=. na 1:`%@.(*@]) nu
+echo 'RPVGRW = ' , 0j17 ": rpvgrw
+eps=. 2 ^ IF64 { _24 _53
+r7=. rpvgrw (|@- % eps * >.) abyu
+thresh=. 30.0
+echo 'RESULT(7) == ' , ": r7
+(r7 < thresh) , r1 ,&(0&{::) r2
+NB. r1 ,&(0&{::) r2
 )
 
 NB. =========================================================
 testdgesvx=: 3 : 0
-ma0=. 0 0$0
-mb0=. 0 0$0
-ma1=. ? 10 10$100
+ma0=. 0 0$0.0
+mb0=. 0 0$0.0
+ma1=. (100 * idmat 10) + ? 10 10$100
 mb1=. ? 10 5$50
-ma2=. 0 0$zzero
-mb2=. 0 0$zzero
-ma3=. j./ ? 2 10 10$100
+ma2=. 0 0$0j0
+mb2=. 0 0$0j0
+ma3=. (100 * idmat 10) + j./ ? 2 10 10$100
 mb3=. j./ ? 2 10 5$50
-ma4=. 0 0$0
-vb4=. 0$0
-ma5=. ? 10 10$100
+ma4=. 0 0$0.0
+vb4=. 0$0.0
+ma5=. (100 * idmat 10) + ? 10 10$100
 vb5=. ? 10$50
-ma6=. 0 0$zzero
-vb6=. 0$zzero
-ma7=. j./ ? 2 10 10$100
+ma6=. 0 0$0j0
+vb6=. 0$0j0
+ma7=. (100 * idmat 10) + j./ ? 2 10 10$100
 vb7=. j./ ? 2 10$50
 assert. 0&tdgesvx &> (< ma0;mb0) , (< ma1;mb1) , (< ma4;vb4) , (< ma5;vb5)
 assert. 1&tdgesvx &> (< ma2;mb2) , (< ma3;mb3) , (< ma6;vb6) , (< ma7;vb7)

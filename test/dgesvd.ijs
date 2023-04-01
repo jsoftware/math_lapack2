@@ -141,39 +141,31 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgesvd=: 4 : 0
-zero=. (2|x){::dzero;zzero
-a=. zero + y
-sa=. |. 'm n'=. $a
-mn=. m<.n
-sui=. m,m
-svt=. n,n
-lda=. ldu=. 1>.m
-S=. mn$dzero
-U=. sui$zero
-VT=. svt$zero
-lwork=. 1 >. (2|x) { (((3*mn)+(m>.n))>.(5*mn)) , ((2*mn)+(m>.n))
-work=. lwork$zero
-rwork=. ((3*mn)>.(_4+5*mn))$dzero
-if. 0=2|x do.
-  assert. 0= _1{::cdrc=. dgesvd`0:`sgesvd`0:@.x (,'A');(,'A');(,m);(,n);(|:a);(,1>.m);S;U;(,1>.m);VT;(,1>.n);(lwork$zero);(,lwork);,_1
+assert. ismatrix y
+zero=. (2|x){::0.0;0j0
+'m n'=. $y
+mn=. m <. n
+ldau=. , 1 >. m
+lwork=. , 1 >. (2|x) { (((3*mn)+(m>.n))>.(5*mn)) , ((2*mn)+(m>.n))
+if. 2|x do.
+  assert. 0= _1{::cdrc=. [:`zgesvd`[:`cgesvd@.x (,'A');(,'A');(,m);(,n);(|:y);ldau;(mn$0.0);(zero$~,~m);ldau;(zero$~,~n);(,1>.n);(lwork$zero);lwork;(0.0$~5*mn);,_1
 else.
-  assert. 0= _1{::cdrc=. 0:`zgesvd`0:`cgesvd@.x (,'A');(,'A');(,m);(,n);(|:a);(,1>.m);S;U;(,1>.m);VT;(,1>.n);(lwork$zero);(,lwork);rwork;,_1
+  assert. 0= _1{::cdrc=. dgesvd`[:`sgesvd`[:@.x (,'A');(,'A');(,m);(,n);(|:y);ldau;(mn$0.0);(zero$~,~m);ldau;(zero$~,~n);(,1>.n);(lwork$zero);lwork;,_1
 end.
 's u vt'=. (|:L:0) 7 8 10{cdrc
-vt=. +vt
-S=. (m-n) diagmat S
-echo U;S;VT
-echo r=. a match`matchf@.(x>1) clean`cleanf@.(x>1) U mp S mp +|:VT
+s=. (m-n) diagmat s
+echo u;s;vt
+echo r=. y match`matchf@.(x>1) clean`cleanf@.(x>1) u mp s mp vt
 0{::r
 )
 
 NB. =========================================================
 testdgesvd=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. ?.4 4$10
 m2=. ?.4 6$10
 m3=. ?.6 4$10
-m4=. 0 0$zzero
+m4=. 0 0$0j0
 m5=. j./ ?.2 4 4$10
 m6=. j./ ?.2 4 6$10
 m7=. j./ ?.2 6 4$10

@@ -79,13 +79,14 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tzheev=: 4 : 0
-a=. zzero + y
-'m n'=. $a
-assert. 0= _1{::cdrc=. 0:`zheev`0:`cheev@.x (,'V');(,'U');(,n);(|:a);(,1>.m);(V=. n$dzero);(lwork$zzero);(,lwork=. 1>._1+2*n);(dzero$~1>._2+3*n);,_1
-'R V'=. 4 6{cdrc
-R=. |:R
-echo V;R
-echo r=. (clean`cleanf@.(x>1) a mp R) match`matchf@.(x>1) (clean`cleanf@.(x>1) V *"1 R)
+assert. (ismatrix , issquare , ishermitian) y
+n=. #y
+lwork=. , 1 >. _1 2 p. n
+assert. 0= _1{::cdrc=. [:`zheev`[:`cheev@.x (,'V');(,'U');(,n);(|:y);(,1>.n);(n$0.0);(lwork$0j0);lwork;(0.0$~1>._2 3 p. n);,_1
+'v w'=. 4 6{cdrc
+v=. |:v
+echo w;v
+echo r=. (clean`cleanf@.(x>1) y mp v) match`matchf@.(x>1) clean`cleanf@.(x>1) w *"1 v
 0{::r
 )
 

@@ -140,32 +140,29 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgees=: 4 : 0
-zero=. (2|x){::dzero;zzero
-a=. zero + y
-'m n'=. $a
-if. 0=2|x do.
-  assert. 0= _1{::cdrc=. dgees`0:`sgees`0:@.x (,'V');(,'N');(<0);(,n);(|:a);(,1>.m);(,0);(WR=. n$dzero);(WI=. n$dzero);(Z=. (,~n)$dzero);(,1>.n);(lwork$zero);(,lwork=. 1>.3*n);(,n$0);,_1
-  'T WR WI Z'=. 5 8 9 10{cdrc
-  T=. |:T
-  Z=. |:Z
-  W=. WR j. WI
+assert. (ismatrix , issquare) y
+n=. #y
+ld=. , 1 >. n
+if. 2|x do.
+  lwork=. , 1 >. +: n
+  assert. 0= _1{::cdrc=. [:`zgees`[:`cgees@.x (,'V');(,'N');(<0);(,n);(|:y);ld;(,00);(n$0j0);(0j0$~,~n);ld;(lwork$0j0);lwork;(n$0.0);(n$0);,_1
+  't w z'=. (|:L:0) 5 8 9{cdrc
 else.
-  assert. 0= _1{::cdrc=. 0:`zgees`0:`cgees@.x (,'V');(,'N');(<0);(,n);(|:a);(,1>.m);(,0);(W=. n$zzero);(Z=. (,~n)$zzero);(,1>.n);(lwork$zzero);(,lwork=. 1>.2*n);(n$dzero);(,n$0);,_1
-  'T W Z'=. 5 8 9{cdrc
-  T=. |:T
-  W=. |:W
-  Z=. |:Z
+  lwork=. , 1 >. 3*n
+  assert. 0= _1{::cdrc=. dgees`[:`sgees`[:@.x (,'V');(,'N');(<0);(,n);(|:y);ld;(,00);(n$0.0);(n$0.0);(0.0$~,~n);ld;(lwork$0.0);lwork;(n$0);,_1
+  't wr wi z'=. (|:L:0) 5 8 9 10{cdrc
+  w=. wr j. wi
 end.
-echo Z;T;W
-echo r=. a match`matchf@.(x>1) clean`cleanf@.(x>1) Z mp T mp +|:Z
+echo z;t;w
+echo r=. y match`matchf@.(x>1) clean`cleanf@.(x>1) t (] mp (mp +@|:)) z
 0{::r
 )
 
 NB. =========================================================
 testdgees=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. ?.6 6$10
-m2=. 0 0$zzero
+m2=. 0 0$0j0
 m3=. j./ ?.2 6 6$10
 assert. 0&tdgees &> m0;m1;m2
 assert. 1&tdgees m3
