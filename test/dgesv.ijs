@@ -67,35 +67,35 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgesv=: 4 : 0
-zero=. (2|x){::dzero;zzero
 'ma mvb'=. y
-ma=. zero + ma
-'m n'=. $ma
-mvb=. zero + ,.^:(2>#@$)mvb
-nrhs=. {:@$mvb
-assert. 0= _1{::cdrc=. dgesv`zgesv`sgesv`cgesv@.x (,n);(,nrhs);(|:ma);(,1>.m);(ipv=. n$2-2);(|:ldb{.mvb);(,ldb=. 1>.n);,_1
-R=. n{. |: 6{::cdrc
-echo R
-echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
+n=. #ma
+assert. (ismatrix , issquare) ma
+assert. (ismatrixorvector , n=#) mvb
+nrhs=. , *@{.`{:@.(1 < #) $ mvb
+ld=. , 1 >. n
+assert. 0= _1{::cdrc=. dgesv`zgesv`sgesv`cgesv@.x (,n);nrhs;(|:ma);ld;(n$00);(|:mvb);ld;,_1
+xx=. |: 6{::cdrc
+echo xx
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp xx
 0{::r
 )
 
 NB. =========================================================
 testdgesv=: 3 : 0
-ma0=. 0 0$0
-mb0=. 0 0$0
+ma0=. 0 0$0.0
+mb0=. 0 0$0.0
 ma1=. ?. 10 10$100
 mb1=. ?. 10 5$50
-ma2=. 0 0$zzero
-mb2=. 0 0$zzero
+ma2=. 0 0$0j0
+mb2=. 0 0$0j0
 ma3=. j./ ?. 2 10 10$100
 mb3=. j./ ?. 2 10 5$50
-ma4=. 0 0$0
-vb4=. 0$0
+ma4=. 0 0$0.0
+vb4=. 0$0.0
 ma5=. ?. 10 10$100
 vb5=. ?. 10$50
-ma6=. 0 0$zzero
-vb6=. 0$zzero
+ma6=. 0 0$0j0
+vb6=. 0$0j0
 ma7=. j./ ?. 2 10 10$100
 vb7=. j./ ?. 2 10$50
 0&tdgesv &> (< ma0;mb0) , (< ma1;mb1) , (< ma2;mb2)

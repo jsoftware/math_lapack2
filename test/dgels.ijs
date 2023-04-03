@@ -120,42 +120,43 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgels=: 4 : 0
-zero=. (2|x){::dzero;zzero
 'ma mvb'=. y
-ma=. zero + ma
 'm n'=. $ma
-mvb=. zero + ,.^:(2>#@$)mvb
-nrhs=. {:@$mvb
-lwork=. 1 >. (m<.n) + ((m<.n) >. nrhs)*4
-assert. 0= _1{::cdrc=. dgels`zgels`sgels`cgels@.x (,'N');(,m);(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.m>.n);(lwork$zero);(,lwork);,_1
-R=. n{. |: 7{::cdrc
-echo R
-echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
+assert. ismatrix ma
+assert. (ismatrixorvector , m=#) mvb
+zero=. (2|x){::0.0;0j0
+nrhs=. , *@{.`{:@.(1 < #) $ mvb
+mx=. m >. n
+lwork=. , 1 >. nrhs (] + 32 * >.) m <. n
+assert. 0= _1{::cdrc=. dgels`zgels`sgels`cgels@.x (,'N');(,m);(,n);nrhs;(|:ma);(,1>.m);(|:mx{.mvb);(,1>.mx);(lwork$zero);lwork;,_1
+xx=. n {. |: 7{::cdrc
+echo xx
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp xx
 0{::r
 )
 
 NB. =========================================================
 testdgels=: 3 : 0
-dma0=. 0 0$0
-dmb0=. 0 0$0
+dma0=. 0 0$0.0
+dmb0=. 0 0$0.0
 dma1=. ?. 10 5$100          NB. match fails for this pair since solution is least squares
 dmb1=. ?. 10 3$50
 dma2=. ?. 5 10$100
 dmb2=. ?. 5 3$50
-dma3=. 0 0$0
-dvb3=. 0$0
+dma3=. 0 0$0.0
+dvb3=. 0$0.0
 dma4=. ?. 10 5$100          NB. match fails for this pair since solution is least squares
 dvb4=. ?. 10$50
 dma5=. ?. 5 10$100
 dvb5=. ?. 5$50
-zma0=. 0 0$zzero
-zmb0=. 0 0$zzero
+zma0=. 0 0$0j0
+zmb0=. 0 0$0j0
 zma1=. j./ ?. 2 10 5$100    NB. match fails for this pair since solution is least squares
 zmb1=. j./ ?. 2 10 3$50
 zma2=. j./ ?. 2 5 10$100
 zmb2=. j./ ?. 2 5 3$50
-zma3=. 0 0$zzero
-zvb3=. 0$zzero
+zma3=. 0 0$0j0
+zvb3=. 0$0j0
 zma4=. j./ ?. 2 10 5$100    NB. match fails for this pair since solution is least squares
 zvb4=. j./ ?. 2 10$50
 zma5=. j./ ?. 2 5 10$100

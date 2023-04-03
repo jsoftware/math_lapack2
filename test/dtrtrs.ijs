@@ -79,16 +79,16 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdtrtrs=: 4 : 0
-zero=. (2|x){::dzero;zzero
 'ma mvb'=. y
-ma=. zero + ma
-'m n'=. $ma
-mvb=. zero + ,.^:(2>#@$)mvb
-nrhs=. {:@$mvb
-assert. 0= _1{::cdrc=. dtrtrs`ztrtrs`strtrs`ctrtrs@.x (,'U');(,'N');(,'N');(,n);(,nrhs);(|:ma);(,1>.m);(|:ldb{.mvb);(,ldb=. 1>.n);,_1
-R=. n{. |: 8{::cdrc
-echo R
-echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp R
+n=. #ma
+assert. (ismatrix , issquare , (-: utri)) ma
+assert. (ismatrixorvector , n=#) mvb
+nrhs=. , *@{.`{:@.(1 < #) $ mvb
+ld=. , 1 >. n
+assert. 0= _1{::cdrc=. dtrtrs`ztrtrs`strtrs`ctrtrs@.x (,'U');(,'N');(,'N');(,n);nrhs;(|:ma);ld;(|:mvb);ld;,_1
+xx=. |: 8{::cdrc
+echo xx
+echo r=. mvb match`matchf@.(x>1) clean`cleanf@.(x>1) ma mp xx
 0{::r
 )
 
@@ -98,16 +98,16 @@ ma0=. 0 0$0
 mb0=. 0 0$0
 ma1=. utri 1+ ?. 10 10$100
 vb1=. ?. 10 5$50
-ma2=. 0 0$zzero
-mb2=. 0 0$zzero
+ma2=. 0 0$0
+mb2=. 0 0$0
 ma3=. utri j./ ?. 2 10 10$100
 vb3=. j./ ?. 2 10 5$50
 ma4=. 0 0$0
 vb4=. 0$0
 ma5=. utri 1+ ?. 1 >. 10 10$100
 vb5=. ?. 10$50
-ma6=. 0 0$zzero
-vb6=. 0$zzero
+ma6=. 0 0$0
+vb6=. 0$0
 ma7=. utri j./ ?. 2 10 10$100
 vb7=. j./ ?. 2 10$50
 assert. 0&tdtrtrs &> (< ma0;mb0) , (< ma1;vb1) , (< ma2;mb2)

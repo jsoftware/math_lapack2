@@ -143,22 +143,21 @@ NB. 0.3333   0.25    0.2 0.1667
 
 NB. return s u vt
 do_dgesvd=: 3 : 0
-assert. 2=#$y
-a=. y
-'m n'=. ,"0 $a
-mn=. m<.n
+assert. ismatrix_jlapack2_ y
+'m n'=. $y
+mn=. m <. n
+ldau=. , 1 >. m
 
 NB. call with lwork = _1 to query optimal workspace size
-NB. lapack expect column major order |:a
-assert. 0= LASTINFO=: _1{::cdrc=. dgesvd_jlapack2_ (,'A');(,'A');m;n;(|:a);(1>.m);(mn$0.0);(0.0$~ldu,m);(ldu=. 1>.m);(0.0$~ldvt,n);(ldvt=. 1>.n);(,0.0);(,_1);,_1
+NB. lapack expect column major order |:y
+assert. 0= _1{::cdrc=. dgesvd_jlapack2_ (,'A');(,'A');(,m);(,n);(|:y);ldau;(mn$0.0);(0.0$~,~m);ldau;(0.0$~,~n);(,1>.n);(,0.0);(,_1);,_1
 
-lwork=. <. _3{::cdrc
+lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= LASTINFO=: _1{::cdrc=. dgesvd_jlapack2_ (_3}.}.cdrc),(lwork$0.0);lwork;,_1
+assert. 0= _1{::cdrc=. dgesvd_jlapack2_ ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
 
-'s u vt'=. 7 8 10{cdrc
-s;(m{.|:u);n{.|:vt
+(|:L:0) 7 8 10{cdrc
 )
 
 a=: ".;._2[0 : 0
@@ -166,8 +165,9 @@ a=: ".;._2[0 : 0
    0.5 0.3333   0.25    0.2
 0.3333   0.25    0.2 0.1667
 )
-
+'m n'=. $a
 's u vt'=: do_dgesvd a
-echo (,.s);u;vt
-echo sigma=:  ($a)$,s,("0 1) 0#~{:$a   NB. diagonal is s
-echo a;u (+/ .*) sigma (+/ .*) vt
+sigma=: (m-n) diagmat_jlapack2_ s
+echo ('singular values';'Sigma') ,: (,.s);sigma
+echo ('U';'V^T') ,: u;vt
+echo ('A';'U * Sigma * V^T') ,: a;u (+/ .*) sigma (+/ .*) vt

@@ -78,32 +78,30 @@ matchf=: matchcleanf;;
 
 NB. =========================================================
 tdgeqrf=: 4 : 0
-zero=. (2|x){::dzero;zzero
-a=. zero + y
-'m n'=. $a
-mn=. m<.n
-assert. 0= _1{::cdrc=. dgeqrf`zgeqrf`sgeqrf`cgeqrf@.x (,m);(,n);(|:a);(,1>.m);(tau=. (1>.mn)$zero);(lwork$zero);(,lwork=. 1 >. 10 * m >. n);,_1
-
-q=. h=. r=. 0
-
-val=. |: 3{::cdrc
-tau=. 5{::cdrc
-h=. (m,mn) {. (idmat m,n) + sltri val
+assert. ismatrix y
+zero=. (2|x){::0.0;0j0
+'m n'=. $y
+mn=. m <. n
+lwork=. , 1 >. 10 * m >. n
+assert. 0= _1{::cdrc=. dgeqrf`zgeqrf`sgeqrf`cgeqrf@.x (,m);(,n);(|:y);(,1>.m);(mn$zero);(lwork$zero);lwork;,_1
+'val tau'=. 3 5{cdrc
+val=. |: val
+h=. mn {."1 (idmat m,n) + sltri val
+q=. mn {."1 mp/ (idmat m) -"2 tau * (* +)"0/~"1 |: h
 r=. mn {. utri val
-q=. (m,mn) {. mp/ (idmat m) -"2 tau * (* +)"0/~"1 |: h
 
 echo q;r
-echo r=. a match`matchf@.(x>1) q mp r
+echo r=. y match`matchf@.(x>1) q mp r
 0{::r
 )
 
 NB. =========================================================
 testdgeqrf=: 3 : 0
-m0=. 0 0$0
+m0=. 0 0$0.0
 m1=. ?.4 6$10
 m2=. ?.6 4$10
 m3=. ?.6 6$10
-m4=. 0 0$zzero
+m4=. 0 0$0j0
 m5=. j./ ?. 2 4 6$10
 m6=. j./ ?.2 6 4$10
 m7=. j./ ?.2 6 6$10
@@ -113,4 +111,3 @@ assert. 2&tdgeqrf &> m1;m2;m3
 assert. 3&tdgeqrf &> m5;m6;m7
 EMPTY
 )
-
