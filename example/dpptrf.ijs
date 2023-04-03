@@ -112,17 +112,17 @@ NB.  _4.14   5.00
 
 do_dpptrf=: 3 : 0
 'uplo a b'=. y
-assert. isvector a
-assert. ismatrix b
+assert. isvector_jlapack2_ a
+assert. ismatrix_jlapack2_ b
 m=. #a                      NB. a is packed into vector of length m
 'n nrhs'=. $b               NB. n is an order of unpacked matrix
 assert. m = 0 0.5 0.5 p. n  NB. m = n*(n+1)/2
 
-assert. 0= _1{::cdrc=. dpptrf (,uplo);(,n);a;,_1
+assert. 0= _1{::cdrc=. dpptrf_jlapack2_ (,uplo);(,n);a;,_1
 
 ap=. 3{::cdrc               NB. packed U or L
 
-assert. 0= _1{::cdrc=. dpptrs (,uplo);(,n);(,nrhs);ap;(|:b);(,1>.n);,_1
+assert. 0= _1{::cdrc=. dpptrs_jlapack2_ (,uplo);(,n);(,nrhs);ap;(|:b);(,1>.n);,_1
 
 |: 5{::cdrc
 )
@@ -142,4 +142,4 @@ NB. rhs
 b=: 4 2 $ 8.70 8.30 _13.35 2.13 1.89 1.61 _4.14 5.00
 
 xx=: do_dpptrf 'L';ap;b
-echo ('A';'X';'B';'A * X') ,: a;xx;b;a mp xx
+echo ('A';'X';'B';'A * X') ,: a;xx;b;a (+/ .*) xx

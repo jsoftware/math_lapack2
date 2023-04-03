@@ -117,24 +117,24 @@ NB. 6 5 4
 NB. 8 9 7
 
 do_dgetrf=: 3 : 0
-assert. ismatrix y
+assert. ismatrix_jlapack2_ y
 'm n'=. $y
 
 NB. lapack expect column major order |:y
-assert. 0= _1{::cdrc=. dgetrf (,m);(,n);(|:y);(,1>.m);(00$~m<.n);,_1
+assert. 0= _1{::cdrc=. dgetrf_jlapack2_ (,m);(,n);(|:y);(,1>.m);(00$~m<.n);,_1
 'val ipiv'=. 3 5{cdrc  NB. val is in column major order
 
 NB. call with lwork = _1 to query optimal workspace size
 NB. val is already in column major order, no need to transpose
-assert. 0= _1{::cdrc=. dgetri (,n);val;(,1>.n);ipiv;(,0.0);(,_1);,_1
+assert. 0= _1{::cdrc=. dgetri_jlapack2_ (,n);val;(,1>.n);ipiv;(,0.0);(,_1);,_1
 
 lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= _1{::cdrc=. dgetri ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
+assert. 0= _1{::cdrc=. dgetri_jlapack2_ ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
 
 |: 2{::cdrc
 )
 
 ai=: do_dgetrf a=: 3 3$1.0 2 3 6 5 4 8 9 7
-echo ('A';'A^-1';'A * A^-1') ,: a;ai; a mp ai
+echo ('A';'A^-1';'A * A^-1') ,: a;ai; a (+/ .*) ai

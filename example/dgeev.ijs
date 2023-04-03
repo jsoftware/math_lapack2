@@ -123,24 +123,24 @@ NB.  0.25 _0.32 _0.13  0.11
 
 NB. return eigenvalues and eigenvectors
 do_dgeev=: 3 : 0
-assert. (ismatrix , issquare) y
+assert. (ismatrix_jlapack2_ , issquare_jlapack2_) y
 n=. #y
 ld=. , 1 >. n
 
 NB. call with lwork = _1 to query optimal workspace size
 NB. lapack expect column major order |:y
-assert. 0= _1{::cdrc=. dgeev (,'V');(,'V');(,n);(|:y);ld;(n$0.0);(n$0.0);(0.0$~,~n);ld;(0.0$~,~n);ld;(,0.0);(,_1);,_1
+assert. 0= _1{::cdrc=. dgeev_jlapack2_ (,'V');(,'V');(,n);(|:y);ld;(n$0.0);(n$0.0);(0.0$~,~n);ld;(0.0$~,~n);ld;(,0.0);(,_1);,_1
 
 lwork=. , <. _3{::cdrc
 
 NB. call again with lwork
-assert. 0= _1{::cdrc=. dgeev ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
+assert. 0= _1{::cdrc=. dgeev_jlapack2_ ((lwork$0.0);lwork;,_1) _3 _2 _1} }. cdrc
 
 'wr wi vl vr'=. (|:L:0) 6 7 8 10{cdrc
 
 if. #cx=. I. wi ~: 0 do.
-  vl=. cx cxpair vl
-  vr=. cx cxpair vr
+  vl=. cx cxpair_jlapack2_ vl
+  vr=. cx cxpair_jlapack2_ vr
 end.
 
 (wr j. wi);vl;vr
@@ -154,7 +154,7 @@ _0.44 _0.33 _0.03  0.17
 )
 
 'w vl vr'=: do_dgeev a
-echo ('eigenvalues';'Lambda') ,: (,.w);diagmat w
+echo ('eigenvalues';'Lambda') ,: (,.w);diagmat_jlapack2_ w
 echo ('U';'V') ,: vl;vr
-echo ('U^T * A';'Lambda * U^T') ,: ((|:vl) mp a) ; w * |:vl
-echo ('A * V';'V * Lambda') ,: (a mp vr) ; w *"1 vr
+echo ('U^T * A';'Lambda * U^T') ,: ((|:vl) (+/ .*) a) ; w * |:vl
+echo ('A * V';'V * Lambda') ,: (a (+/ .*) vr) ; w *"1 vr
