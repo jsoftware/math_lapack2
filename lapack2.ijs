@@ -1370,7 +1370,7 @@ isvector=: 1 = #@$
 ismatrix=: 2 = #@$
 ismatrixorvector=: 1 2 e.~ #@$
 issquare=: =/ @ $
-issymmetric=: -:   |:
+issymmetric=: -: |:
 ishermitian=: -: +@|:
 ishessenberg=: 1 : (':' ; '(-: (x u $)`(0&,:)}) y')
 isorthogonal=: 3 : 0

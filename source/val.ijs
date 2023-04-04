@@ -16,7 +16,7 @@ isvector=: 1 = #@$
 ismatrix=: 2 = #@$
 ismatrixorvector=: 1 2 e.~ #@$
 issquare=: =/ @ $
-issymmetric=: -:   |:
+issymmetric=: -: |:
 ishermitian=: -: +@|:
 
 NB. =========================================================
