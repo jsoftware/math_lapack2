@@ -5,7 +5,7 @@ NB. library:
 NB. First part of this script is making sure the library is loaded
 3 : 0''
 if. 0=4!:0<'liblapack' do. '' return. end.
-if. UNAME-:'Linux' do.
+if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
   liblapack=: 'liblapack.so.3'
 elseif. UNAME-:'Darwin' do.
   if. IFIOS do.
@@ -35,7 +35,7 @@ end.
 NB. =========================================================
 checklibrary=: 3 : 0
 if. ((dquote liblapack) ,' dummyfunction n')&cd :: (1={.@cder) '' do.
-  if. (UNAME-:'Linux') do.
+  if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
     sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install liblapack3 (or similar) package from linux distro'
   else.
     getbinmsg 'The binary needed for math/lapack2 has not yet been installed.',LF2,'To install, ' return.
@@ -47,7 +47,7 @@ NB. =========================================================
 NB. get lapack2 binary
 NB. uses routines from pacman
 getbin=: 3 : 0
-if. +./ (UNAME-:'Darwin'),(UNAME-:'Linux'),(UNAME-:'Android') do. return. end.
+if. +./ (UNAME-:'Darwin'),((<UNAME)e.'Linux';'FreeBSD';'OpenBSD'),(UNAME-:'Android') do. return. end.
 require 'pacman'
 path=. 'http://www.jsoftware.com/download/lapackbin/'
 arg=. HTTPCMD_jpacman_
@@ -80,7 +80,7 @@ res=. ''
 fail=. 0
 try.
   fail=. _1-: res=. shellcmd cmd
-  2!:0 ::0:^:(UNAME-:'Linux') 'chmod 644 ', dquote to
+  2!:0 ::0:^:((<UNAME)e.'Linux';'FreeBSD';'OpenBSD') 'chmod 644 ', dquote to
 catch. fail=. 1 end.
 if. fail +. 0 >: fsize to do.
   if. _1-:msg=. freads lg do.
