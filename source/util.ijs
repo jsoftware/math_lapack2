@@ -42,7 +42,7 @@ mp=: +/ . *
 
 NB. from general/misc/numeric
 NB. =========================================================
-NB.*clean v clean y to tolerance of x (default 1e_10)
+NB. clean v clean y to tolerance of x (default 1e_10)
 NB. form: tolerance (default 1e_10) clean numbers
 NB. sets values less than tolerance to 0
 clean=: 1e_10&$: : (4 : 0)

@@ -20,7 +20,7 @@ issymmetric=: -: |:
 ishermitian=: -: +@|:
 
 NB. =========================================================
-NB.*ishessenberg   dyadic adv. to check for lower/upper Hessenberg matrix
+NB. ishessenberg   dyadic adv. to check for lower/upper Hessenberg matrix
 NB. syntax:
 NB.   isH=. (ilo , ihi) (mkHmat ishessenberg) H
 NB. where mkHmat is either lhmat or uhmat
