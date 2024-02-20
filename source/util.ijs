@@ -1,9 +1,18 @@
 NB. lapack utils
 NB.
+NB. mp            matrix product
+NB. neareq        Tolerant comparison (=) for single precision
+NB. clean         clean y if near x
+NB. cleanf        clean for single precision
 NB. matchclean    if clean x-y is all 0
+NB. matchcleanf   matchclean for single precision
 NB.
 NB. diagmat       rectangular diagonal matrix
 NB. idmat         rectangular identity matrix with shifted diagonal
+NB.
+NB. lhmat         lower Hessenberg boolean matrix
+NB. uhmat         upper Hessenberg boolean matrix
+NB.
 NB. ltmat         lower triangular (trapezoidal) matrix
 NB. utmat         upper triangular (trapezoidal) matrix
 NB.
@@ -13,11 +22,14 @@ NB. sltri         return only strictly lower triangular (trapezoidal) matrix
 NB. sutri         return only strictly upper triangular (trapezoidal) matrix
 NB.
 NB. cxpair        reconstruct complex columns
-NB. xtoken        exclude tokens with indices in x from list y
-NB. invperm       inverse permutation of x by pivot indices
-NB.               from y
-NB. makepermat    generate inverse permutation matrix P from
-NB.               pivot indices y
+NB.
+NB. ipiv2scrp     transform pivot indices to standard cycle
+NB.               representation of the permutation
+NB. invperm       do inverse permutation by pivot indices
+NB. makeper       generate inverse permutation vector from pivot
+NB.               indices
+NB. makepermat    generate inverse permutation matrix from
+NB.               pivot indices
 NB.
 NB. ver           get version string
 
