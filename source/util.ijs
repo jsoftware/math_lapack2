@@ -8,7 +8,8 @@ NB. matchclean    if clean x-y is all 0
 NB. matchcleanf   matchclean for single precision
 NB.
 NB. diagmat       rectangular diagonal matrix
-NB. idmat         rectangular identity matrix with shifted diagonal
+NB. idmat         rectangular identity matrix with shifted
+NB.               diagonal
 NB.
 NB. lhmat         lower Hessenberg boolean matrix
 NB. uhmat         upper Hessenberg boolean matrix
@@ -16,10 +17,14 @@ NB.
 NB. ltmat         lower triangular (trapezoidal) matrix
 NB. utmat         upper triangular (trapezoidal) matrix
 NB.
-NB. ltri          return only lower triangular (trapezoidal) matrix
-NB. utri          return only upper triangular (trapezoidal) matrix
-NB. sltri         return only strictly lower triangular (trapezoidal) matrix
-NB. sutri         return only strictly upper triangular (trapezoidal) matrix
+NB. ltri          return only lower triangular (trapezoidal)
+NB.               matrix
+NB. utri          return only upper triangular (trapezoidal)
+NB.               matrix
+NB. sltri         return only strictly lower triangular
+NB.               (trapezoidal) matrix
+NB. sutri         return only strictly upper triangular
+NB.               (trapezoidal) matrix
 NB.
 NB. cxpair        reconstruct complex columns
 NB.
