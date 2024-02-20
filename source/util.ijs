@@ -41,11 +41,11 @@ end.
 )
 
 NB. =========================================================
-matchclean=: 0: *./ . = clean @ , @: -
+matchclean=: 0 *./ . = clean@,@:-
 
 NB. single precision
 neareq=: (2^_16) > [ |@:% -
-matchcleanf=: 0: *./ . neareq 5e_5&clean @ , @: -
+matchcleanf=: 0 *./ . neareq 5e_5&clean@,@:-
 cleanf=: 5e_5&clean
 
 NB. =========================================================
