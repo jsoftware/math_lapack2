@@ -1369,6 +1369,23 @@ ipiv2scrp=: ((}:^:({. -: {:))&.>)@:(<"1)@((i.@# ,. <:) : (((0 (1 i.@- {) [) ([ ,
 invperm=: C.~ ipiv2scrp
 makeper=: C.@ipiv2scrp
 makepermat=: ({ =)@makeper
+ver=: 3 : 0
+  try.
+    a=. ('"',liblapack,'" openblas_get_config >',(IFWIN#'+'),' x') cd ''
+    memr a , 0 _1 2
+    return.
+  catch.
+    assert 2 0 -: cder ''
+  end.
+  try.
+    a=. ilaver ((3 # < , 0))
+    3 }. ; ('.' , ":) L: 0 a
+    return.
+  catch.
+    assert 2 0 -: cder ''
+  end.
+  'unknown'
+)
 isscalar=: 0 = #@$
 isvector=: 1 = #@$
 ismatrix=: 2 = #@$

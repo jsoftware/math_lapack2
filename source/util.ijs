@@ -18,6 +18,8 @@ NB. invperm       inverse permutation of x by pivot indices
 NB.               from y
 NB. makepermat    generate inverse permutation matrix P from
 NB.               pivot indices y
+NB.
+NB. ver           get version string
 
 mp=: +/ . *
 
@@ -286,3 +288,32 @@ NB.                          n-1        n-ihi-1    n-1   , scale(n-1)-1
 
 makeper=: C.@ipiv2scrp
 makepermat=: ({ =)@makeper
+
+NB. =========================================================
+NB. ver
+NB.
+NB. Description:
+NB.   Get version string
+NB.
+NB. Syntax:
+NB.   strVer=. ver_jlapack2_ ''
+
+ver=: 3 : 0
+  try.
+    a=. ('"',liblapack,'" openblas_get_config >',(IFWIN#'+'),' x') cd ''
+    NB. we here => it's OpenBLAS
+    memr a , 0 _1 2
+    return.
+  catch.
+    assert 2 0 -: cder ''  NB. cderx returns 'undefined symbol: openblas_get_config'
+  end.
+  try.
+    a=. ilaver ((3 # < , 0))
+    NB. we here => it's LAPACK
+    3 }. ; ('.' , ":) L: 0 a
+    return.
+  catch.
+    assert 2 0 -: cder ''  NB. cderx returns 'undefined symbol: ilaver_'
+  end.
+  'unknown'
+)
