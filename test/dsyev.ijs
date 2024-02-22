@@ -78,7 +78,7 @@ NB. =========================================================
 tdsyev=: 4 : 0
 assert. (ismatrix , issquare , issymmetric) y
 n=. #y
-lwork=. , 1 >. _1 3 p. n
+lwork=. , 1 >. _1 + 3 * n
 assert. 0= _1{::cdrc=. dsyev`[:`ssyev`[:@.x (,'V');(,'U');(,n);(|:y);(,1>.n);(n$0.0);(lwork$0.0);lwork;,_1
 'r v'=. 4 6{cdrc
 r=. |:r

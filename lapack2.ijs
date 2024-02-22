@@ -1109,6 +1109,10 @@ slapy2=: (lib,' slapy2_ ',ifw,' f &f &f')&cd
 dlapy2=: (lib,' dlapy2_ ',ifw,' d &d &d')&cd
 slapy3=: (lib,' slapy3_ ',ifw,' f &f &f &f')&cd
 dlapy3=: (lib,' dlapy3_ ',ifw,' d &d &d &d')&cd
+slartg=: (lib,' slartg_ ',ifw,' n &f &f *f *f *f')&cd
+dlartg=: (lib,' dlartg_ ',ifw,' n &d &d *d *d *d')&cd
+clartg=: (lib,' clartg_ ',ifw,' n &z &z *f *z *z')&cd
+zlartg=: (lib,' zlartg_ ',ifw,' n &j &j *d *j *j')&cd
 slartgp=: (lib,' slartgp_ ',ifw,' n &f &f *f *f *f')&cd
 dlartgp=: (lib,' dlartgp_ ',ifw,' n &d &d *d *d *d')&cd
 slartgs=: (lib,' slartgs_ ',ifw,' n &f &f &f *f *f')&cd
@@ -1340,9 +1344,9 @@ else.
   end.
 end.
 )
-matchclean=: 0: *./ . = clean @ , @: -
+matchclean=: 0 *./ . = clean@,@:-
 neareq=: (2^_16) > [ |@:% -
-matchcleanf=: 0: *./ . neareq 5e_5&clean @ , @: -
+matchcleanf=: 0 *./ . neareq 5e_5&clean@,@:-
 cleanf=: 5e_5&clean
 diagmat=: (0 $: ]) :(((0 (>. , -@<.) [) + #@]) {. (* =@i.@#)@])
 idmat=: (0 $: ]) :(= ({. -~/&i. {:))
@@ -1365,6 +1369,23 @@ ipiv2scrp=: ((}:^:({. -: {:))&.>)@:(<"1)@((i.@# ,. <:) : (((0 (1 i.@- {) [) ([ ,
 invperm=: C.~ ipiv2scrp
 makeper=: C.@ipiv2scrp
 makepermat=: ({ =)@makeper
+ver=: 3 : 0
+  try.
+    a=. ('"',liblapack,'" openblas_get_config >',(IFWIN#'+'),' x') cd ''
+    memr a , 0 _1 2
+    return.
+  catch.
+    assert 2 0 -: cder ''
+  end.
+  try.
+    a=. ilaver ((3 # < , 0))
+    3 }. ; ('.' , ":) L: 0 a
+    return.
+  catch.
+    assert 2 0 -: cder ''
+  end.
+  'unknown'
+)
 isscalar=: 0 = #@$
 isvector=: 1 = #@$
 ismatrix=: 2 = #@$

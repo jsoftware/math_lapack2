@@ -1,29 +1,48 @@
 NB. lapack utils
 NB.
+NB. mp            matrix product
+NB. neareq        Tolerant comparison (=) for single precision
+NB. clean         clean y if near x
+NB. cleanf        clean for single precision
 NB. matchclean    if clean x-y is all 0
+NB. matchcleanf   matchclean for single precision
 NB.
 NB. diagmat       rectangular diagonal matrix
-NB. idmat         rectangular identity matrix with shifted diagonal
+NB. idmat         rectangular identity matrix with shifted
+NB.               diagonal
+NB.
+NB. lhmat         lower Hessenberg boolean matrix
+NB. uhmat         upper Hessenberg boolean matrix
+NB.
 NB. ltmat         lower triangular (trapezoidal) matrix
 NB. utmat         upper triangular (trapezoidal) matrix
 NB.
-NB. ltri          return only lower triangular (trapezoidal) matrix
-NB. utri          return only upper triangular (trapezoidal) matrix
-NB. sltri         return only strictly lower triangular (trapezoidal) matrix
-NB. sutri         return only strictly upper triangular (trapezoidal) matrix
+NB. ltri          return only lower triangular (trapezoidal)
+NB.               matrix
+NB. utri          return only upper triangular (trapezoidal)
+NB.               matrix
+NB. sltri         return only strictly lower triangular
+NB.               (trapezoidal) matrix
+NB. sutri         return only strictly upper triangular
+NB.               (trapezoidal) matrix
 NB.
 NB. cxpair        reconstruct complex columns
-NB. xtoken        exclude tokens with indices in x from list y
-NB. invperm       inverse permutation of x by pivot indices
-NB.               from y
-NB. makepermat    generate inverse permutation matrix P from
-NB.               pivot indices y
+NB.
+NB. ipiv2scrp     transform pivot indices to standard cycle
+NB.               representation of the permutation
+NB. invperm       do inverse permutation by pivot indices
+NB. makeper       generate inverse permutation vector from pivot
+NB.               indices
+NB. makepermat    generate inverse permutation matrix from
+NB.               pivot indices
+NB.
+NB. ver           get version string
 
 mp=: +/ . *
 
 NB. from general/misc/numeric
 NB. =========================================================
-NB.*clean v clean y to tolerance of x (default 1e_10)
+NB. clean v clean y to tolerance of x (default 1e_10)
 NB. form: tolerance (default 1e_10) clean numbers
 NB. sets values less than tolerance to 0
 clean=: 1e_10&$: : (4 : 0)
@@ -39,15 +58,15 @@ end.
 )
 
 NB. =========================================================
-matchclean=: 0: *./ . = clean @ , @: -
+matchclean=: 0 *./ . = clean@,@:-
 
 NB. single precision
 neareq=: (2^_16) > [ |@:% -
-matchcleanf=: 0: *./ . neareq 5e_5&clean @ , @: -
+matchcleanf=: 0 *./ . neareq 5e_5&clean@,@:-
 cleanf=: 5e_5&clean
 
 NB. =========================================================
-NB.*diagmat   rectangular diagonal matrix with y on diagonal
+NB. diagmat   rectangular diagonal matrix with y on diagonal
 NB. x=rows-columns , x=0 is default
 NB. e.g.
 NB.    diagmat 3 5 7
@@ -67,7 +86,7 @@ NB. 0 0 7 0
 diagmat=: (0 $: ]) :(((0 (>. , -@<.) [) + #@]) {. (* =@i.@#)@])
 
 NB. =========================================================
-NB.*idmat   rectangular identity matrix with shifted diagonal
+NB. idmat   rectangular identity matrix with shifted diagonal
 NB. e.g.
 NB.    idmat 3
 NB. 1 0 0
@@ -85,7 +104,7 @@ NB. 0 0 0 1
 idmat=: (0 $: ]) :(= ({. -~/&i. {:))
 
 NB. =========================================================
-NB.*ltmat   lower triangular (trapezoidal) boolean matrix
+NB. ltmat   lower triangular (trapezoidal) boolean matrix
 NB. e.g.
 NB.    ltmat 3
 NB. 1 0 0
@@ -103,7 +122,7 @@ NB. 1 1 1 1 0
 ltmat=: (0 $: ]) :(>: ({. -~/&i. {:))
 
 NB. =========================================================
-NB.*utmat   upper triangular (trapezoidal) boolean matrix
+NB. utmat   upper triangular (trapezoidal) boolean matrix
 NB. e.g.
 NB.    utmat 3
 NB. 1 1 1
@@ -121,7 +140,7 @@ NB. 0 0 0 1 1
 utmat=: (0 $: ]) :(<: ({. -~/&i. {:))
 
 NB. =========================================================
-NB.*lhmat   lower Hessenberg boolean matrix
+NB. lhmat   lower Hessenberg boolean matrix
 NB. H=. (ilo , ihi) lhmat size
 NB. e.g.
 NB.    2 4 lhmat 5
@@ -140,7 +159,7 @@ NB. 1 1 1 1 1
 lhmat=: 4 : '({. (>: +. (_1 = -) *. (ilo <: ]) *. (ihi >: >:@]))"0/&i. {:) y [ ''ilo ihi''=. x'
 
 NB. =========================================================
-NB.*uhmat   upper Hessenberg boolean matrix
+NB. uhmat   upper Hessenberg boolean matrix
 NB. H=. (ilo , ihi) uhmat size
 NB. e.g.
 NB.    2 4 uhmat 5
@@ -159,7 +178,7 @@ NB. 0 0 0 0 1
 uhmat=: 4 : '({. (<: +. ( 1 = -) *. (ilo <: [) *. (ihi >: >:@[))"0/&i. {:) y [ ''ilo ihi''=. x'
 
 NB. =========================================================
-NB.*ltri   return only lower triangular (trapezoidal) matrix
+NB. ltri   return only lower triangular (trapezoidal) matrix
 NB. e.g.
 NB.   ltri 3 5 $ 2
 NB. 2 0 0 0 0
@@ -173,7 +192,7 @@ NB. 2 2 2 2 0
 ltri=: (0 $: ]) : (] * (>: ({. -~/&i. {:)@$))
 
 NB. =========================================================
-NB.*utri   return only upper triangular (trapezoidal) matrix
+NB. utri   return only upper triangular (trapezoidal) matrix
 NB. e.g.
 NB.    utri 3 5 $ 2
 NB. 2 2 2 2 2
@@ -187,7 +206,7 @@ NB. 0 0 0 2 2
 utri=: (0 $: ]) : (] * (<: ({. -~/&i. {:)@$))
 
 NB. =========================================================
-NB.*sltri   return only strictly lower triangular (trapezoidal) matrix
+NB. sltri   return only strictly lower triangular (trapezoidal) matrix
 NB. e.g.
 NB.    sltri 3 5 $ 2
 NB. 0 0 0 0 0
@@ -201,7 +220,7 @@ NB. 2 2 2 0 0
 sltri=: (0 $: ]) : (] * (> ({. -~/&i. {:)@$))
 
 NB. =========================================================
-NB.*sutri   return only strictly upper triangular (trapezoidal) matrix
+NB. sutri   return only strictly upper triangular (trapezoidal) matrix
 NB. e.g.
 NB.    sutri 3 5 $ 2
 NB. 0 2 2 2 2
@@ -215,7 +234,7 @@ NB. 0 0 0 0 2
 sutri=: (0 $: ]) : (] * (< ({. -~/&i. {:)@$))
 
 NB. =========================================================
-NB.*cxpair - reconstruct complex columns
+NB. cxpair - reconstruct complex columns
 
 cxpair=: 4 : 0
 'i j'=: |: _2 [\ x
@@ -286,3 +305,32 @@ NB.                          n-1        n-ihi-1    n-1   , scale(n-1)-1
 
 makeper=: C.@ipiv2scrp
 makepermat=: ({ =)@makeper
+
+NB. =========================================================
+NB. ver
+NB.
+NB. Description:
+NB.   Get version string
+NB.
+NB. Syntax:
+NB.   strVer=. ver_jlapack2_ ''
+
+ver=: 3 : 0
+  try.
+    a=. ('"',liblapack,'" openblas_get_config >',(IFWIN#'+'),' x') cd ''
+    NB. we here => it's OpenBLAS
+    memr a , 0 _1 2
+    return.
+  catch.
+    assert 2 0 -: cder ''  NB. cderx returns 'undefined symbol: openblas_get_config'
+  end.
+  try.
+    a=. ilaver ((3 # < , 0))
+    NB. we here => it's LAPACK
+    3 }. ; ('.' , ":) L: 0 a
+    return.
+  catch.
+    assert 2 0 -: cder ''  NB. cderx returns 'undefined symbol: ilaver_'
+  end.
+  'unknown'
+)

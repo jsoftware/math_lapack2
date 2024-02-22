@@ -81,8 +81,8 @@ NB. =========================================================
 tzheev=: 4 : 0
 assert. (ismatrix , issquare , ishermitian) y
 n=. #y
-lwork=. , 1 >. _1 2 p. n
-assert. 0= _1{::cdrc=. [:`zheev`[:`cheev@.x (,'V');(,'U');(,n);(|:y);(,1>.n);(n$0.0);(lwork$0j0);lwork;(0.0$~1>._2 3 p. n);,_1
+lwork=. , 1 >. _1 + 2 * n
+assert. 0= _1{::cdrc=. [:`zheev`[:`cheev@.x (,'V');(,'U');(,n);(|:y);(,1>.n);(n$0.0);(lwork$0j0);lwork;(0.0$~1>._2 + 3 * n);,_1
 'v w'=. 4 6{cdrc
 v=. |:v
 echo w;v
