@@ -2449,6 +2449,7 @@ makepermat=: ({ =)@makeper
 ver=: 3 : 0
   try.
     a=. ('"',liblapack,'" openblas_get_config >',(IFWIN#'+'),' x') cd ''
+
     memr a , 0 _1 2
     return.
   catch.
@@ -2456,6 +2457,7 @@ ver=: 3 : 0
   end.
   try.
     a=. ilaver ((3 # < , 0))
+
     3 }. ; ('.' , ":) L: 0 a
     return.
   catch.
