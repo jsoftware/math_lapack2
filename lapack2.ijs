@@ -24,7 +24,7 @@ elseif. UNAME-:'Android' do.
     liblapack=: (({.~ i:&'/') LIBFILE),'/liblapack.so'
   end.
 elseif. do.
-  liblapack=: jpath '~addons/math/lapack2/lib/liblapack3',((-.IF64)#'_32'),'.dll'
+  liblapack=: jpath '~addons/math/lapack2/lib/libopenlapack',((-.IF64)#'_32'),'.dll'
 end.
 )
 checklibrary=: 3 : 0
@@ -96,7 +96,6 @@ end.
 )
 lib=. dquote liblapack
 ifw=. IFWIN # '+'
-
 icamax=: (lib,' icamax_ ',ifw,' i &i &z &i')&cd
 idamax=: (lib,' idamax_ ',ifw,' i &i &d &i')&cd
 isamax=: (lib,' isamax_ ',ifw,' i &i &f &i')&cd

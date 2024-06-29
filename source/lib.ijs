@@ -28,7 +28,7 @@ elseif. UNAME-:'Android' do.
     liblapack=: (({.~ i:&'/') LIBFILE),'/liblapack.so'
   end.
 elseif. do.
-  liblapack=: jpath '~addons/math/lapack2/lib/liblapack3',((-.IF64)#'_32'),'.dll'
+  liblapack=: jpath '~addons/math/lapack2/lib/libopenlapack',((-.IF64)#'_32'),'.dll'
 end.
 )
 
