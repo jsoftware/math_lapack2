@@ -29,6 +29,9 @@ elseif. UNAME-:'Android' do.
   end.
 elseif. do.
   liblapack=: jpath '~addons/math/lapack2/lib/libopenblas',((-.IF64)#'_32'),'.dll'
+  if. -.fexist liblapack do.
+    liblapack=: 'libopenblas',((-.IF64)#'_32'),'.dll'
+  end.
 end.
 )
 
@@ -36,7 +39,7 @@ NB. =========================================================
 checklibrary=: 3 : 0
 if. ((dquote liblapack) ,' dummyfunction n')&cd :: (1={.@cder) '' do.
   if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
-    sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install liblapack3 (or similar) package from linux distro'
+    sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install libopenblas0 (or similar) package from linux distro'
   else.
     getbinmsg 'The binary needed for math/lapack2 has not yet been installed.',LF2,'To install, ' return.
   end.
