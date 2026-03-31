@@ -5,6 +5,7 @@ NB. library:
 NB. First part of this script is making sure the library is loaded
 3 : 0''
 if. 0=4!:0<'liblapack' do. '' return. end.
+if. 0: ~: 4!:0 @ <'IFWA64' do. IFWA64=. 0 end.
 if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
   liblapack=: 'liblapack.so.3'
 elseif. UNAME-:'Darwin' do.
@@ -16,22 +17,13 @@ elseif. UNAME-:'Darwin' do.
       liblapack=: '/System/Library/Frameworks/vecLib.framework/vecLib'
     end.
   end.
-elseif. UNAME-:'Android' do.
-  arch=. LF-.~ 2!:0'getprop ro.product.cpu.abi'
-  if. IF64 < arch-:'arm64-v8a' do.
-    arch=. 'armeabi-v7a'
-  elseif. IF64 < arch-:'x86_64' do.
-    arch=. 'x86'
-  end.
-  liblapack=: (jpath'~bin/../libexec/',arch,'/liblapack.so')
-  if. -.fexist liblapack do.
-    liblapack=: (({.~ i:&'/') LIBFILE),'/liblapack.so'
-  end.
-elseif. do.
-  liblapack=: liblapacklib=: jpath '~addons/math/lapack2/lib/libopenblas',((-.IFWA64){::'_arm64';(-.IF64)#'_32'),'.dll'
+elseif. IFWIN do. NB. Win
+  liblapack=: jpath '~addons/math/lapack2/lib/libopenblas',((-.IFWA64){::'_arm64';(-.IF64)#'_32'),'.dll'
   if. -.fexist liblapack do.
     liblapack=: 'libopenblas',((-.IFWA64){::'_arm64';(-.IF64)#'_32'),'.dll'
   end.
+elseif. do.
+  liblapack=: 'liblapack.so'
 end.
 )
 
@@ -50,32 +42,13 @@ NB. =========================================================
 NB. get lapack2 binary
 NB. uses routines from pacman
 getbin=: 3 : 0
-if. +./ (UNAME-:'Darwin'),((<UNAME)e.'Linux';'FreeBSD';'OpenBSD'),(UNAME-:'Android') do. return. end.
+if. -.IFWIN do. return. end.
 require 'pacman'
 path=. 'http://www.jsoftware.com/download/lapackbin/'
 arg=. HTTPCMD_jpacman_
 tm=. TIMEOUT_jpacman_
 dq=. dquote_jpacman_ f.
-to=. IFWIN{::lliblapack_jlapack2_;iblapacklib_jlapack2_
-if. UNAME-:'Android' do.
-  path=. 'http://www.jsoftware.com/download/'
-  arch=. LF-.~ 2!:0'getprop ro.product.cpu.abi'
-  if. IF64 < arch-:'arm64-v8a' do.
-    arch=. 'armeabi-v7a'
-  elseif. IF64 < arch-:'x86_64' do.
-    arch=. 'x86'
-  end.
-  fm=. path,'android/libs/',z=. arch,'/liblapack.so'
-  'res p'=. httpget_jpacman_ fm
-  if. res do.
-    smoutput 'Connection failed: ',z return.
-  end.
-  (<to) 1!:2~ 1!:1 <p
-  2!:0 ::0: 'chmod 644 ', dquote to
-  1!:55 ::0: <p
-  smoutput 'LAPACK binary installed.'
-  return.
-end.
+to=. liblapack_jlapack2_
 fm=. path,1 pick fpathname to
 lg=. jpath '~temp/getbin.log'
 cmd=. arg rplc '%O';(dquote to);'%L';(dquote lg);'%t';'3';'%T';(":tm);'%U';fm
@@ -83,7 +56,6 @@ res=. ''
 fail=. 0
 try.
   fail=. _1-: res=. shellcmd cmd
-  2!:0 ::0:^:((<UNAME)e.'Linux';'FreeBSD';'OpenBSD') 'chmod 644 ', dquote to
 catch. fail=. 1 end.
 if. fail +. 0 >: fsize to do.
   if. _1-:msg=. freads lg do.
