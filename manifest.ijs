@@ -20,7 +20,7 @@ Reference BLAS implementation may be orders of magnitude slower than optimized i
 See wiki page: code.jsoftware.com/wiki/Vocabulary/LAPACK
 )
 
-VERSION=: '2.1.6'
+VERSION=: '2.1.7'
 
 RELEASE=: 'j9.4'
 

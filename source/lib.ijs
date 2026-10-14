@@ -5,6 +5,10 @@ NB. library:
 NB. First part of this script is making sure the library is loaded
 3 : 0''
 if. 0=4!:0<'liblapack' do. '' return. end.
+try. lib=. 9!:56'cblasfile' catch. lib=. 0 end.
+if. -. (lib-:0) +. (lib-:'') do.
+  liblapack=: lib return.
+end.
 if. 0: ~: 4!:0 @ <'IFWA64' do. IFWA64=. 0 end.
 if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
   liblapack=: 'liblapack.so.3'
