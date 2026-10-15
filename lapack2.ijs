@@ -6,8 +6,18 @@ if. -. (lib-:0) +. (lib-:'') do.
   liblapack=: lib return.
 end.
 if. 0: ~: 4!:0 @ <'IFWA64' do. IFWA64=. 0 end.
-if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
-  liblapack=: 'liblapack.so.3'
+if. UNAME-:'OpenBSD' do.
+  if. -.fexist liblapack=: jpath '~addons/math/lapack2/lib/libopenblas.so' do.
+    liblapack=: 'liblapack.so'
+  end.
+elseif. UNAME-:'FreeBSD' do.
+  if. -.fexist liblapack=: jpath '~addons/math/lapack2/lib/libopenblas.so' do.
+    liblapack=: 'liblapack.so.0'
+  end.
+elseif. UNAME-:'Linux' do.
+  if. -.fexist liblapack=: jpath '~addons/math/lapack2/lib/libopenblas',((IFRASPI < -.IF64)#'_32'),'.so' do.
+    liblapack=: 'liblapack.so.3'
+  end.
 elseif. UNAME-:'Darwin' do.
   if. IFIOS do.
     liblapack=: '/System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/vecLib'
@@ -18,9 +28,12 @@ elseif. UNAME-:'Darwin' do.
     end.
   end.
 elseif. IFWIN do.
-  liblapack=: jpath '~addons/math/lapack2/lib/libopenblas',((-.IFWA64){::'_arm64';(-.IF64)#'_32'),'.dll'
-  if. -.fexist liblapack do.
-    liblapack=: 'libopenblas',((-.IFWA64){::'_arm64';(-.IF64)#'_32'),'.dll'
+  if. -.fexist liblapack=: jpath '~addons/math/lapack2/lib/libopenblas',((-.IF64)#'_32'),'.dll' do.
+    liblapack=: 'libopenblas.dll'
+  end.
+elseif. UNAME-:'Android' do.
+  if. -.fexist liblapack=: '/data/local/tmp/jlibrary/bin/libopenblas.so' do.
+    liblapack=: 'libopenblas.so'
   end.
 elseif. do.
   liblapack=: 'liblapack.so'
@@ -28,22 +41,43 @@ end.
 )
 checklibrary=: 3 : 0
 if. ((dquote liblapack) ,' dummyfunction n')&cd :: (1={.@cder) '' do.
-  if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
+  if. (<UNAME)e.'FreeBSD';'OpenBSD' do.
     sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install libopenblas0 (or similar) package from linux distro'
+  elseif. (<UNAME)e.<'Linux' do.
+    sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install libopenblas0 (or similar) package from linux distro'
+    getbinmsg 'alternatively, to install, '
   else.
-    getbinmsg 'The binary needed for math/lapack2 has not yet been installed.',LF2,'To install, ' return.
+    getbinmsg 'The binary needed for math/lapack2 has not yet been installed.',LF2,'To install, '
   end.
 end.
 )
 getbin=: 3 : 0
-if. -.IFWIN do. return. end.
+if. (<UNAME) -.@e. 'Win';'Linux' do. return. end.
 require 'pacman'
-path=. 'http://www.jsoftware.com/download/lapackbin/'
+if. IFWIN do.
+  folder=. 'windows/', IF64{::'x86';IFWA64{::'x64';'arm64'
+  fm1=. 'libopenblas.dll'
+  to=. jpath '~addons/math/lapack2/lib/libopenblas',((-.IF64)#'_32'),'.dll'
+elseif. UNAME-:'Linux' do.
+  if. IFRASPI do.
+    folder=. 'linux/', IF64{::'arm';'aarch64'
+    fm1=. 'libopenblas.so'
+    to=. jpath '~addons/math/lapack2/lib/libopenblas.so'
+  else.
+    folder=. 'linux/', IF64{::'i386';'x86_64'
+    fm1=. 'libopenblas.so'
+    to=. jpath '~addons/math/lapack2/lib/libopenblas',((-.IF64)#'_32'),'.so'
+  end.
+elseif. (<UNAME) e. 'FreeBSD';'OpenBSD' do.
+  folder=. (tolower UNAME),'/', 9!:56'cpu'
+  fm1=. 'libopenblas.so'
+  to=. jpath '~addons/math/lapack2/lib/libopenblas.so'
+end.
+path=. 'http://www.jsoftware.com/download/lapackbin/','/',~ folder
 arg=. HTTPCMD_jpacman_
 tm=. TIMEOUT_jpacman_
 dq=. dquote_jpacman_ f.
-to=. liblapack_jlapack2_
-fm=. path,1 pick fpathname to
+fm=. path,1 pick (rplc&('.';'-avx2.'))^:(9!:56'c_avx2') fm1
 lg=. jpath '~temp/getbin.log'
 cmd=. arg rplc '%O';(dquote to);'%L';(dquote lg);'%t';'3';'%T';(":tm);'%U';fm
 res=. ''
