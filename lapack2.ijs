@@ -41,9 +41,7 @@ end.
 )
 checklibrary=: 3 : 0
 if. ((dquote liblapack) ,' dummyfunction n')&cd :: (1={.@cder) '' do.
-  if. (<UNAME)e.'FreeBSD';'OpenBSD' do.
-    sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install libopenblas0 (or similar) package from linux distro'
-  elseif. (<UNAME)e.<'Linux' do.
+  if. (<UNAME)e.'Linux';'FreeBSD';'OpenBSD' do.
     sminfo 'The binary needed for math/lapack2 has not yet been installed.',LF2,'Install libopenblas0 (or similar) package from linux distro'
     getbinmsg 'alternatively, to install, '
   else.
@@ -52,7 +50,7 @@ if. ((dquote liblapack) ,' dummyfunction n')&cd :: (1={.@cder) '' do.
 end.
 )
 getbin=: 3 : 0
-if. (<UNAME) -.@e. 'Win';'Linux' do. return. end.
+if. (<UNAME) -.@e. 'Win';'Linux';'FreeBSD';'OpenBSD' do. return. end.
 require 'pacman'
 if. IFWIN do.
   folder=. 'windows/', IF64{::'x86';IFWA64{::'x64';'arm64'
